@@ -4,6 +4,7 @@ public interface ArenaI {
 
 	void initArena();
 
-	void resetArena();
+	int getSize();
 
+	TileI[][] getCurrentMap();
 }

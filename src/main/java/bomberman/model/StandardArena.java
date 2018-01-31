@@ -5,7 +5,8 @@ public class StandardArena implements ArenaI {
 	private TileI[][] currentMap;
 
 	public StandardArena(int size) {
-		this.size = 16;
+		this.size = size;
+		this.currentMap = new TileI[size][size];
 		this.initArena();
 	}
 
@@ -22,8 +23,12 @@ public class StandardArena implements ArenaI {
 
 	}
 
-	public void resetArena() {
-		// TODO
+	public int getSize() {
+		return size;
+	}
+
+	public TileI[][] getCurrentMap() {
+		return currentMap;
 	}
 
 }

@@ -1,12 +1,31 @@
 package bomberman.model;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
-public interface TileI {
+import javax.imageio.ImageIO;
 
-	boolean isPassable();
+public abstract class TileI {
 
-	boolean isDestroyable();
+	public abstract boolean isPassable();
 
-	BufferedImage getSprite();
+	public abstract boolean isDestroyable();
+
+	public BufferedImage getSprite() {
+		BufferedImage spriteImg = null;
+
+		try {
+			spriteImg = ImageIO.read(getSpriteURL());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assert spriteImg != null : "spriteImg was null";
+
+		return spriteImg;
+	}
+
+	protected abstract URL getSpriteURL();
+
 }

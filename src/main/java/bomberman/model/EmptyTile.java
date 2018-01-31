@@ -1,11 +1,8 @@
 package bomberman.model;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.net.URL;
 
-import javax.imageio.ImageIO;
-
-public class EmptyTile implements TileI {
+public class EmptyTile extends TileI {
 
 	public boolean isPassable() {
 		return true;
@@ -15,18 +12,9 @@ public class EmptyTile implements TileI {
 		return false;
 	}
 
-	public BufferedImage getSprite() {
-		BufferedImage spriteImg = null;
-
-		try {
-			spriteImg = ImageIO.read(getClass().getClassLoader().getResource("empty_tile.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		assert spriteImg != null : "spriteImg was null";
-
-		return spriteImg;
+	@Override
+	protected URL getSpriteURL() {
+		return getClass().getClassLoader().getResource("empty_tile.png");
 	}
 
 }
