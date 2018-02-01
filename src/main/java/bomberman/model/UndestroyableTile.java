@@ -2,7 +2,7 @@ package bomberman.model;
 
 import java.net.URL;
 
-public class UndestroyableTile extends TileI {
+public class UndestroyableTile extends AbstractTile {
 
 	public boolean isPassable() {
 		return false;
@@ -13,7 +13,7 @@ public class UndestroyableTile extends TileI {
 	}
 
 	@Override
-	protected URL getSpriteURL() {
+	public URL getSpriteURL() {
 		return getClass().getClassLoader().getResource("undestroyable_block.png");
 	}
 

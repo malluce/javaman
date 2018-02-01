@@ -6,5 +6,5 @@ public interface ArenaI {
 
 	int getSize();
 
-	TileI[][] getCurrentMap();
+	AbstractTile[][] getCurrentMap();
 }

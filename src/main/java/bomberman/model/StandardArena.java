@@ -2,11 +2,11 @@ package bomberman.model;
 
 public class StandardArena implements ArenaI {
 	private int size;
-	private TileI[][] currentMap;
+	private AbstractTile[][] currentMap;
 
 	public StandardArena(int size) {
 		this.size = size;
-		this.currentMap = new TileI[size][size];
+		this.currentMap = new AbstractTile[size][size];
 		this.initArena();
 	}
 
@@ -27,7 +27,7 @@ public class StandardArena implements ArenaI {
 		return size;
 	}
 
-	public TileI[][] getCurrentMap() {
+	public AbstractTile[][] getCurrentMap() {
 		return currentMap;
 	}
 

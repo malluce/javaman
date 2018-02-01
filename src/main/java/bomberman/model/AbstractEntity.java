@@ -6,12 +6,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-public abstract class TileI {
-
-	public abstract boolean isPassable();
-
-	public abstract boolean isDestroyable();
-
+public abstract class AbstractEntity {
 	public BufferedImage getSprite() {
 		BufferedImage spriteImg = null;
 
@@ -26,6 +21,5 @@ public abstract class TileI {
 		return spriteImg;
 	}
 
-	protected abstract URL getSpriteURL();
-
+	public abstract URL getSpriteURL();
 }
