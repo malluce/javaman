@@ -10,7 +10,7 @@ public class StandardArena implements ArenaI {
 		this.initArena();
 	}
 
-	public void initArena() {
+	private void initArena() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				if (x == 0 || y == 0 || x == (size - 1) || y == (size - 1)) {

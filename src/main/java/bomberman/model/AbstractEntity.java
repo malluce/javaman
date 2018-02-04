@@ -7,17 +7,16 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public abstract class AbstractEntity {
+	protected BufferedImage spriteImg = null;
+
 	public BufferedImage getSprite() {
-		BufferedImage spriteImg = null;
-
-		try {
-			spriteImg = ImageIO.read(getSpriteURL());
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (spriteImg == null) {
+			try {
+				spriteImg = ImageIO.read(getSpriteURL());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
-		assert spriteImg != null : "spriteImg was null";
-
 		return spriteImg;
 	}
 
