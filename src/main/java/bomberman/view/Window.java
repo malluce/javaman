@@ -17,9 +17,10 @@ public class Window extends JFrame {
 	public Window() {
 		this.setSize(new Dimension(480, 480));
 		this.add(imgLabel);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setResizable(false);
 		this.pack();
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	public BufferedImage getImg() {
