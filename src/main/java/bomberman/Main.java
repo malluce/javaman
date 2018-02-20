@@ -1,13 +1,26 @@
 package bomberman;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import bomberman.model.AbstractPlayer;
+import bomberman.model.Game;
+import bomberman.model.PlayerOne;
+import bomberman.model.PlayerTwo;
+import bomberman.model.StandardArena;
 import bomberman.view.Window;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Window win = new Window();
+		PlayerOne playerOne = new PlayerOne();
+		PlayerTwo playerTwo = new PlayerTwo();
+		ArrayList<AbstractPlayer> players = new ArrayList<AbstractPlayer>();
+		players.add(playerOne);
+		players.add(playerTwo);
+		StandardArena arena = new StandardArena(15);
+		Game game = new Game(arena, players, null);
+		Window win = new Window(game);
 
 		while (true) {
 			handleInput();

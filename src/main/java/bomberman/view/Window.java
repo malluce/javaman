@@ -7,14 +7,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import bomberman.model.StandardArena;
+import bomberman.model.ArenaI;
+import bomberman.model.Game;
 
 public class Window extends JFrame {
+	private Game game;
 	private BufferedImage img = new BufferedImage(480, 480, BufferedImage.TYPE_INT_RGB);
-	private StandardArena arena = new StandardArena(15);
 	private JLabel imgLabel = new JLabel(new ImageIcon(img));
 
-	public Window() {
+	public Window(Game game) {
+		this.game = game;
 		this.setSize(new Dimension(480, 480));
 		this.add(imgLabel);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -27,8 +29,8 @@ public class Window extends JFrame {
 		return img;
 	}
 
-	public StandardArena getArena() {
-		return arena;
+	public ArenaI getArena() {
+		return game.getArena();
 	}
 
 	public JLabel getImgLabel() {
