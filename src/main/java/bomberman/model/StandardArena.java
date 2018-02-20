@@ -1,11 +1,8 @@
 package bomberman.model;
 
-import java.util.List;
-
 public class StandardArena implements ArenaI {
 	private int size;
 	private AbstractTile[][] currentMap;
-	private List<AbstractPlayer> players;
 
 	public StandardArena(int size) {
 		this.size = size;
@@ -36,6 +33,11 @@ public class StandardArena implements ArenaI {
 
 	public AbstractTile[][] getCurrentMap() {
 		return currentMap;
+	}
+
+	@Override
+	public int getMaxPlayers() {
+		return 2;
 	}
 
 }
