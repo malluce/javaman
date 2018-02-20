@@ -6,13 +6,23 @@ public abstract class AbstractPlayer extends AbstractEntity {
 
 	public abstract int getY();
 
-	public abstract void moveUp();
+	public void moveUp(int speed) {
 
-	public abstract void moveDown();
+	}
 
-	public abstract void moveLeft();
+	public void moveDown(int speed) {
 
-	public abstract void moveRight();
+	}
 
-	public abstract boolean plantBomb();
+	public void moveLeft(int speed) {
+
+	}
+
+	public void moveRight(int speed) {
+
+	}
+
+	public boolean plantBomb() {
+		return false;
+	}
 }
