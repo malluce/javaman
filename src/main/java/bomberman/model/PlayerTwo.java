@@ -4,6 +4,7 @@ import java.net.URL;
 
 public class PlayerTwo extends AbstractPlayer {
 	private Point position;
+	private int bombsLeft;
 
 	@Override
 	public URL getSpriteURL() {
@@ -18,6 +19,11 @@ public class PlayerTwo extends AbstractPlayer {
 	@Override
 	public int getY() {
 		return position.getY();
+	}
+
+	@Override
+	public int getBombsLeft() {
+		return bombsLeft;
 	}
 
 }
