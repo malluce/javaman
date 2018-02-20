@@ -33,6 +33,10 @@ public class Window extends JFrame {
 		return game.getArena();
 	}
 
+	public Game getGame() {
+		return game;
+	}
+
 	public JLabel getImgLabel() {
 		return imgLabel;
 	}

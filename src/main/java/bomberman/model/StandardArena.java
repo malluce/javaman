@@ -53,4 +53,8 @@ public class StandardArena implements ArenaI {
 		return MAX_PLAYERS;
 	}
 
+	public Point[] getSpawnPoints() {
+		return this.spawnPoints;
+	}
+
 }

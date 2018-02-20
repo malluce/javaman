@@ -1,16 +1,23 @@
 package bomberman.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
+ * 
+ * @author Felix Bachmann
+ *
+ */
 public class Game {
 	private ArenaI arena;
-	private List<AbstractPlayer> players;
+	private List<Player> players;
 	private List<Bomb> bombs;
 
-	public Game(ArenaI arena, List<AbstractPlayer> players, List<Bomb> bombs) {
+	public Game(ArenaI arena, List<Player> players) {
 		this.arena = arena;
 		this.players = players;
-		this.bombs = bombs;
+		this.bombs = new ArrayList<Bomb>();
 	}
 
 	public ArenaI getArena() {
@@ -21,11 +28,11 @@ public class Game {
 		this.arena = arena;
 	}
 
-	public List<AbstractPlayer> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<AbstractPlayer> players) {
+	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
