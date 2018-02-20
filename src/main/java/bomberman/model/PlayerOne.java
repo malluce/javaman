@@ -3,8 +3,7 @@ package bomberman.model;
 import java.net.URL;
 
 public class PlayerOne extends AbstractPlayer {
-	private int x;
-	private int y;
+	private Point position;
 
 	@Override
 	public URL getSpriteURL() {
@@ -13,12 +12,12 @@ public class PlayerOne extends AbstractPlayer {
 
 	@Override
 	public int getX() {
-		return x;
+		return position.getX();
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return position.getY();
 	}
 
 }
