@@ -6,7 +6,7 @@ public class StandardArena implements ArenaI {
 	private int size;
 	private AbstractTile[][] currentMap;
 
-	private final Point[] spawnPoints = new Point[MAX_PLAYERS];
+	private final TileCoordinate[] spawnPoints = new TileCoordinate[MAX_PLAYERS];
 
 	public StandardArena(int size) {
 		if (size < 4) {
@@ -16,8 +16,8 @@ public class StandardArena implements ArenaI {
 		this.size = size;
 		this.currentMap = new AbstractTile[size][size];
 		this.initArena();
-		this.spawnPoints[0] = new Point(1, 1, CoordinateType.TILE_COORDINATE);
-		this.spawnPoints[1] = new Point(size - 1, size - 1, CoordinateType.TILE_COORDINATE);
+		this.spawnPoints[0] = new TileCoordinate(1, 1);
+		this.spawnPoints[1] = new TileCoordinate(size - 2, size - 2);
 	}
 
 	private void initArena() {
@@ -53,7 +53,7 @@ public class StandardArena implements ArenaI {
 		return MAX_PLAYERS;
 	}
 
-	public Point[] getSpawnPoints() {
+	public TileCoordinate[] getSpawnPoints() {
 		return this.spawnPoints;
 	}
 

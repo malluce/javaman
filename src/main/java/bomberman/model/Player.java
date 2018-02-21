@@ -10,7 +10,7 @@ import java.net.URL;
  */
 public class Player extends AbstractEntity {
 	private final String SPRITE_NAME;
-	private Point position;
+	private XYCoordinate position;
 	private int bombsLeft;
 	private int speed;
 
@@ -26,7 +26,7 @@ public class Player extends AbstractEntity {
 	 * @param size
 	 *            the size of the player
 	 */
-	public Player(String spriteName, Point initialPosition, int amountOfBombs) {
+	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs) {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;

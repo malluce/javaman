@@ -1,19 +1,17 @@
 package bomberman.model;
 
-public class Point {
+public class XYCoordinate {
 	private int x;
 	private int y;
-	private CoordinateType type;
 
-	public Point(int x, int y, CoordinateType type) {
+	public XYCoordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.type = type;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Point)) {
+		if (o == null || !(o instanceof XYCoordinate)) {
 			return false;
 		}
 
@@ -21,9 +19,9 @@ public class Point {
 			return true;
 		}
 
-		Point oPoint = (Point) o;
+		XYCoordinate oCoordinate = (XYCoordinate) o;
 
-		if (oPoint.getX() == this.getX() && oPoint.getY() == this.getY()) {
+		if (oCoordinate.getX() == this.getX() && oCoordinate.getY() == this.getY()) {
 			return true;
 		} else {
 			return false;
@@ -46,15 +44,7 @@ public class Point {
 		this.y = y;
 	}
 
-	public Point toXYCoordinates() {
-		if (this.type == CoordinateType.XY_COORDINATE) {
-			return this;
-		}
-		return null;
-		// TODO which arguments needed? and calculation
-	}
-
-	public Point toTileCoordinates() {
+	public TileCoordinate toTileCoordinates() {
 		return null;
 		// TODO which arguments needed? and calculation
 	}
