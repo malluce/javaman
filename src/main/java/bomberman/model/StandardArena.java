@@ -9,14 +9,15 @@ public class StandardArena implements ArenaI {
 	private final Point[] spawnPoints = new Point[MAX_PLAYERS];
 
 	public StandardArena(int size) {
-		if (size < 4)
+		if (size < 4) {
 			throw new IllegalArgumentException(
 					"Arena has to have a size of 4 at least, otherwise it would be quite boring.");
+		}
 		this.size = size;
 		this.currentMap = new AbstractTile[size][size];
 		this.initArena();
-		this.spawnPoints[0] = new Point(1, 1);
-		this.spawnPoints[1] = new Point(size - 1, size - 1);
+		this.spawnPoints[0] = new Point(1, 1, CoordinateType.TILE_COORDINATE);
+		this.spawnPoints[1] = new Point(size - 1, size - 1, CoordinateType.TILE_COORDINATE);
 	}
 
 	private void initArena() {
@@ -48,7 +49,6 @@ public class StandardArena implements ArenaI {
 		return currentMap;
 	}
 
-	@Override
 	public int getMaxPlayers() {
 		return MAX_PLAYERS;
 	}

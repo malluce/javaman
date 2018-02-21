@@ -50,9 +50,10 @@ public class Main {
 		// TODO render players
 		for (int i = 0; i < 480; i++) {
 			for (int j = 0; j < 480; j++) {
-				if (i % 32 == 0 || j % 32 == 0) {
-					curSprite = win.getArena().getCurrentMap()[i / 32][j / 32].getSprite();
-				}
+				if (i >= p1x * 32 && i <= p1x * 32)
+					if (i % 32 == 0 || j % 32 == 0) {
+						curSprite = win.getArena().getCurrentMap()[i / 32][j / 32].getSprite();
+					}
 				win.getImg().setRGB(i, j, curSprite.getRGB(i % 32, j % 32));
 			}
 		}

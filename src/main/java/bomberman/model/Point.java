@@ -3,10 +3,12 @@ package bomberman.model;
 public class Point {
 	private int x;
 	private int y;
+	private CoordinateType type;
 
-	public Point(int x, int y) {
+	public Point(int x, int y, CoordinateType type) {
 		this.x = x;
 		this.y = y;
+		this.type = type;
 	}
 
 	@Override
@@ -42,6 +44,19 @@ public class Point {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Point toXYCoordinates() {
+		if (this.type == CoordinateType.XY_COORDINATE) {
+			return this;
+		}
+		return null;
+		// TODO which arguments needed? and calculation
+	}
+
+	public Point toTileCoordinates() {
+		return null;
+		// TODO which arguments needed? and calculation
 	}
 
 }
