@@ -44,9 +44,10 @@ public class XYCoordinate {
 		this.y = y;
 	}
 
-	public TileCoordinate toTileCoordinates() {
-		return null;
-		// TODO which arguments needed? and calculation
+	public TileCoordinate toTileCoordinates(int tileSize) {
+		int row = y / tileSize;
+		int col = x / tileSize;
+		return new TileCoordinate(col, row);
 	}
 
 }
