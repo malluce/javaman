@@ -30,7 +30,7 @@ public class Renderer {
 		List<Player> players = game.getPlayers();
 
 		BufferedImage curSprite = null;
-		Player curPlayer;
+		Player curPlayer = null;
 		boolean renderPlayer = false;
 		for (int i = 0; i < RENDER_SIZE; i++) {
 			for (int j = 0; j < RENDER_SIZE; j++) {
@@ -41,7 +41,7 @@ public class Renderer {
 					int yPos = curPlayer.getY();
 					if ((i >= xPos) && (i < (xPos + TILE_SIZE)) && j >= yPos && j < (yPos + TILE_SIZE)) {
 						curSprite = curPlayer.getSprite();
-						if (curSprite.getRGB(i % TILE_SIZE, j % TILE_SIZE) == 0xffffffff) {
+						if (getPlayerRGB(i, j, curSprite, curPlayer) == 0xffffffff) {
 							renderPlayer = false;
 						} else {
 							renderPlayer = true;
@@ -51,10 +51,21 @@ public class Renderer {
 				}
 				if (!renderPlayer) {
 					curSprite = map[i / TILE_SIZE][j / TILE_SIZE].getSprite();
+					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
+				} else {
+					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
 				}
-				renderImage.setRGB(i, j, curSprite.getRGB(i % TILE_SIZE, j % TILE_SIZE));
+
 			}
 		}
 		return renderImage;
+	}
+
+	private int getPlayerRGB(int i, int j, BufferedImage sprite, Player player) {
+		return sprite.getRGB((i - player.getX()) % TILE_SIZE, (j - player.getY()) % TILE_SIZE);
+	}
+
+	private int getTileRGB(int i, int j, BufferedImage sprite) {
+		return sprite.getRGB(i % TILE_SIZE, j % TILE_SIZE);
 	}
 }
