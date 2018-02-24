@@ -26,10 +26,13 @@ public class StandardArena implements ArenaI {
 				if (x == 0 || y == 0 || x == (size - 1) || y == (size - 1)) {
 					currentMap[x][y] = UndestroyableTile.getInstance();
 				} else {
-					if ((x == 1 && y == 1) || (x == (size - 2) && y == (size - 2))) {
+					if ((y == 1 && (x == 1 || x == 2)) || (x == 1 && y == 2)
+							|| (y == (size - 2) && (x == (size - 2) || x == (size - 3)))
+							|| (y == (size - 3) && x == (size - 2))) {
+						// at spawn point or around spawn point
 						currentMap[x][y] = EmptyTile.getInstance();
 					} else {
-						if (Math.random() > 0.25d) {
+						if (Math.random() > 0.35d) {
 							currentMap[x][y] = EmptyTile.getInstance();
 						} else {
 							currentMap[x][y] = DestroyableTile.getInstance();
