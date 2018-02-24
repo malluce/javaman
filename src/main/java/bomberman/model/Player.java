@@ -3,7 +3,8 @@ package bomberman.model;
 import java.net.URL;
 
 /**
- * Encapsulates everything the players have in common. (e.g. moving, planting bombs)
+ * Encapsulates everything the players have in common. (e.g. moving, planting
+ * bombs)
  * 
  * @author Felix Bachmann
  *
@@ -13,6 +14,8 @@ public class Player extends AbstractEntity {
 	private XYCoordinate position;
 	private int bombsLeft;
 	private int speed;
+
+	private Game game;
 
 	/**
 	 * Creates a new player.
@@ -25,11 +28,14 @@ public class Player extends AbstractEntity {
 	 *            the amount of bombs the player has (at the start of the game)
 	 * @param size
 	 *            the size of the player
+	 * @param game
+	 *            the game the player is alive in
 	 */
-	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs) {
+	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game) {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
+		this.game = game;
 	}
 
 	/**
@@ -64,21 +70,25 @@ public class Player extends AbstractEntity {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
 	}
 
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 	// TODO
 	public void moveUp() {
-
+		// TODO
 	}
 
 	public void moveDown() {
-
+		// TODO
 	}
 
 	public void moveLeft() {
-
+		// TODO
 	}
 
 	public void moveRight() {
-
+		// TODO
 	}
 
 	public boolean plantBomb() {

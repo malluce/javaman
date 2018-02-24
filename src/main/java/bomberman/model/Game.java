@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
+ * Represents the game. Handles the actions players may try to do. (e.g. moving,
+ * planting a bomb etc.)
  * 
  * @author Felix Bachmann
  *
@@ -43,4 +44,5 @@ public class Game {
 	public void setBombs(List<Bomb> bombs) {
 		this.bombs = bombs;
 	}
+
 }
