@@ -13,17 +13,21 @@ import bomberman.model.Game;
 
 public class Window extends JFrame {
 	private Game game;
-	private BufferedImage img = new BufferedImage(480, 480, BufferedImage.TYPE_INT_RGB);
-	private JLabel imgLabel = new JLabel(new ImageIcon(img));
+	private BufferedImage img;
+	private JLabel imgLabel;
+	private FirstPlayerKeyListener firstPlayerListener;
 
-	public Window(Game game) {
+	public Window(Game game, int size) {
 		this.game = game;
-		this.setSize(new Dimension(480, 480));
+		this.setSize(new Dimension(size, size));
+		img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+		imgLabel = new JLabel(new ImageIcon(img));
 		this.add(imgLabel);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("javaman");
-		this.addKeyListener(new FirstPlayerKeyListener(game.getPlayers().get(0)));
+		firstPlayerListener = new FirstPlayerKeyListener(game.getPlayers().get(0));
+		this.addKeyListener(firstPlayerListener);
 		this.pack();
 		this.setVisible(true);
 	}
@@ -42,5 +46,9 @@ public class Window extends JFrame {
 
 	public JLabel getImgLabel() {
 		return imgLabel;
+	}
+
+	public FirstPlayerKeyListener getFirstPlayerKeyListener() {
+		return firstPlayerListener;
 	}
 }
