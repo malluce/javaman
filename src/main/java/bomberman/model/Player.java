@@ -13,7 +13,7 @@ public class Player extends AbstractEntity {
 	private final String SPRITE_NAME;
 	private XYCoordinate position;
 	private int bombsLeft;
-	private int speed;
+	private int speed = 2;
 
 	private Game game;
 
@@ -76,19 +76,19 @@ public class Player extends AbstractEntity {
 
 	// TODO
 	public void moveUp() {
-		// TODO
+		this.position = new XYCoordinate(position.getX(), position.getY() - speed);
 	}
 
 	public void moveDown() {
-		// TODO
+		this.position = new XYCoordinate(position.getX(), position.getY() + speed);
 	}
 
 	public void moveLeft() {
-		// TODO
+		this.position = new XYCoordinate(position.getX() - speed, position.getY());
 	}
 
 	public void moveRight() {
-		// TODO
+		this.position = new XYCoordinate(position.getX() + speed, position.getY());
 	}
 
 	public boolean plantBomb() {
