@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import bomberman.controller.FirstPlayerKeyListener;
 import bomberman.model.ArenaI;
 import bomberman.model.Game;
 
@@ -21,6 +22,8 @@ public class Window extends JFrame {
 		this.add(imgLabel);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
+		this.setTitle("javaman");
+		this.addKeyListener(new FirstPlayerKeyListener(game.getPlayers().get(0)));
 		this.pack();
 		this.setVisible(true);
 	}
