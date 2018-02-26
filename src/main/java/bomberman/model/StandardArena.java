@@ -1,5 +1,12 @@
 package bomberman.model;
 
+/**
+ * A standard arena where the borders are undestroyable blocks. Inside the arena
+ * there are randomly placed destroyable blocks.
+ * 
+ * @author Felix Bachmann
+ *
+ */
 public class StandardArena implements ArenaI {
 	private final int MAX_PLAYERS = 2;
 
@@ -8,6 +15,14 @@ public class StandardArena implements ArenaI {
 
 	private final TileCoordinate[] spawnPoints = new TileCoordinate[MAX_PLAYERS];
 
+	/**
+	 * Creates a new StandardArena with a specific size.
+	 * 
+	 * @param size
+	 *            The size of the arena to be created. The created arena will
+	 *            have size * size tiles and be quadratic. Has to be at least 4,
+	 *            otherwise an Exception is thrown.
+	 */
 	public StandardArena(int size) {
 		if (size < 4) {
 			throw new IllegalArgumentException(
@@ -20,6 +35,9 @@ public class StandardArena implements ArenaI {
 		this.spawnPoints[1] = new TileCoordinate(size - 2, size - 2);
 	}
 
+	/**
+	 * Initializes the arena i.e. places the tiles.
+	 */
 	private void initArena() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -44,18 +62,43 @@ public class StandardArena implements ArenaI {
 
 	}
 
+	/**
+	 * Returns the size of this arena. The arena is quadratic and has size *
+	 * size tiles.
+	 * 
+	 * @return the size
+	 */
 	public int getSize() {
 		return size;
 	}
 
+	/**
+	 * Returns the current map of the arena. It is a 2D array with size rows and
+	 * size columns per row.
+	 * 
+	 * @return the current map
+	 */
 	public AbstractTile[][] getCurrentMap() {
 		return currentMap;
 	}
 
+	/**
+	 * Returns the amount of players that are able to play inside this arena.
+	 * 
+	 * @return the amount of player allowed in this arena
+	 */
 	public int getMaxPlayers() {
 		return MAX_PLAYERS;
 	}
 
+	/**
+	 * Returns the spawn points for players. At TileCoordinates in the returned
+	 * array there will be an EmptyTile. Maybe there are also some "buffer"
+	 * empty tiles so that initial movement is possible. The returned array has
+	 * a size of getMaxPlayers().
+	 * 
+	 * @return the spawn points
+	 */
 	public TileCoordinate[] getSpawnPoints() {
 		return this.spawnPoints;
 	}
