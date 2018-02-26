@@ -2,6 +2,8 @@ package bomberman.model;
 
 import java.net.URL;
 
+import bomberman.Main;
+
 /**
  * Encapsulates everything the players have in common. (e.g. moving, planting
  * bombs)
@@ -13,7 +15,7 @@ public class Player extends AbstractEntity {
 	private final String SPRITE_NAME;
 	private XYCoordinate position;
 	private int bombsLeft;
-	private int speed = 2;
+	private int speed = 1;
 	private final int ID;
 
 	private Game game;
@@ -82,7 +84,27 @@ public class Player extends AbstractEntity {
 
 	// TODO
 	public void moveUp() {
-		this.position = new XYCoordinate(position.getX(), position.getY() - speed);
+		int xPos = position.getX();
+		int yPos = position.getY();
+
+		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos - speed);
+		TileCoordinate newTilePosition = newXYPosition.toTileCoordinates(Main.TILE_SIZE);
+		int newRow = newTilePosition.getRow();
+		int newCol = newTilePosition.getColumn();
+
+		if (newTilePosition.equals(this.position.toTileCoordinates(Main.TILE_SIZE))) {
+			this.position = newXYPosition;
+		} else {
+			System.out.println("new x:" + newXYPosition.getX());
+			System.out.println("new y: " + newXYPosition.getY());
+			System.out.println("new row:" + newRow);
+			System.out.println("new col:" + newCol);
+			System.out.println(game.getArena().getCurrentMap()[newRow][newCol].getClass().getName());
+			if (game.getArena().getCurrentMap()[newRow][newCol].isPassable()) {
+				this.position = newXYPosition;
+			}
+			System.err.println("Reaching new tile");
+		}
 	}
 
 	public void moveDown() {
