@@ -39,6 +39,7 @@ public class Renderer {
 					curPlayer = players.get(x);
 					int xPos = curPlayer.getX();
 					int yPos = curPlayer.getY();
+
 					if ((i >= xPos) && (i < (xPos + TILE_SIZE)) && j >= yPos && j < (yPos + TILE_SIZE)) {
 						curSprite = curPlayer.getSprite();
 						if (getPlayerRGB(i, j, curSprite, curPlayer) == 0xffffffff) {
@@ -50,7 +51,7 @@ public class Renderer {
 					}
 				}
 				if (!renderPlayer) {
-					curSprite = map[i / TILE_SIZE][j / TILE_SIZE].getSprite();
+					curSprite = map[j / TILE_SIZE][i / TILE_SIZE].getSprite();
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				} else {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
