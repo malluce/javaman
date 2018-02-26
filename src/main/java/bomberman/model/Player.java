@@ -14,6 +14,7 @@ public class Player extends AbstractEntity {
 	private XYCoordinate position;
 	private int bombsLeft;
 	private int speed = 2;
+	private final int ID;
 
 	private Game game;
 
@@ -31,11 +32,12 @@ public class Player extends AbstractEntity {
 	 * @param game
 	 *            the game the player is alive in
 	 */
-	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game) {
+	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game, int id) {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
 		this.game = game;
+		this.ID = id;
 	}
 
 	/**
@@ -63,6 +65,10 @@ public class Player extends AbstractEntity {
 	 */
 	public int getY() {
 		return position.getY();
+	}
+
+	public int getId() {
+		return this.ID;
 	}
 
 	@Override
