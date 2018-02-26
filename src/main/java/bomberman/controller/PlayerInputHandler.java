@@ -8,17 +8,25 @@ import java.util.Set;
 
 import bomberman.model.Player;
 
-public class FirstPlayerKeyListener implements KeyListener {
+public class PlayerInputHandler implements KeyListener {
 	private HashMap<Integer, Boolean> isPressed = new HashMap<Integer, Boolean>();
 	private Player player;
+	private final int keyCodeLeft;
+	private final int keyCodeRight;
+	private final int keyCodeUp;
+	private final int keyCodeDown;
 
-	public FirstPlayerKeyListener(Player player) {
+	public PlayerInputHandler(Player player, int keyCodeLeft, int keyCodeRight, int keyCodeUp, int keyCodeDown) {
 		this.player = player;
+		this.keyCodeLeft = keyCodeLeft;
+		this.keyCodeRight = keyCodeRight;
+		this.keyCodeUp = keyCodeUp;
+		this.keyCodeDown = keyCodeDown;
 	}
 
 	public void updateFromPressedKeys() {
 		Set<Integer> keys = isPressed.keySet();
-		Iterator iter = keys.iterator();
+		Iterator<Integer> iter = keys.iterator();
 		while (iter.hasNext()) {
 			int keyCode = (Integer) iter.next();
 			if (isPressed.get(keyCode)) {
@@ -34,22 +42,20 @@ public class FirstPlayerKeyListener implements KeyListener {
 	}
 
 	private void invokeMovement(int keyCode) {
-		switch (keyCode) {
-		case KeyEvent.VK_LEFT:
+		if (keyCode == keyCodeLeft) {
+			System.out.println("Player " + player.getId() + ": Try to move left.");
 			player.moveLeft();
-			break;
-		case KeyEvent.VK_RIGHT:
+		} else if (keyCode == keyCodeRight) {
+			System.out.println("Player  " + player.getId() + ": Try to move right.");
 			player.moveRight();
-			break;
-		case KeyEvent.VK_UP:
+		} else if (keyCode == keyCodeUp) {
+			System.out.println("Player " + player.getId() + ": Try to move up.");
 			player.moveUp();
-			break;
-		case KeyEvent.VK_DOWN:
+		} else if (keyCode == keyCodeDown) {
+			System.out.println("Player " + player.getId() + ": Try to move down.");
 			player.moveDown();
-			break;
-		default:
-			System.err.println("Someone pressed a key which does nothing.");
-			break;
+		} else {
+
 		}
 	}
 

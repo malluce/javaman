@@ -2,12 +2,13 @@ package bomberman.view;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import bomberman.controller.FirstPlayerKeyListener;
+import bomberman.controller.PlayerInputHandler;
 import bomberman.model.ArenaI;
 import bomberman.model.Game;
 
@@ -15,9 +16,9 @@ public class Window extends JFrame {
 	private Game game;
 	private BufferedImage img;
 	private JLabel imgLabel;
-	private FirstPlayerKeyListener firstPlayerListener;
+	private PlayerInputHandler firstPlayerListener;
 
-	public Window(Game game, int size) {
+	public Window(Game game, int size, List<PlayerInputHandler> inputHandlers) {
 		this.game = game;
 		this.setSize(new Dimension(size, size));
 		img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
@@ -26,8 +27,9 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("javaman");
-		firstPlayerListener = new FirstPlayerKeyListener(game.getPlayers().get(0));
-		this.addKeyListener(firstPlayerListener);
+		for (PlayerInputHandler handler : inputHandlers) {
+			this.addKeyListener(handler);
+		}
 		this.pack();
 		this.setVisible(true);
 	}
@@ -48,7 +50,4 @@ public class Window extends JFrame {
 		return imgLabel;
 	}
 
-	public FirstPlayerKeyListener getFirstPlayerKeyListener() {
-		return firstPlayerListener;
-	}
 }
