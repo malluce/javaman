@@ -3,9 +3,9 @@ package bomberman.view;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import bomberman.model.AbstractTile;
 import bomberman.model.Game;
 import bomberman.model.Player;
+import bomberman.model.TileCoordinate;
 
 public class Renderer {
 	private Game game;
@@ -18,10 +18,6 @@ public class Renderer {
 		int tileSize = game.getTileSize();
 		int gameSize = game.getGameSize();
 		int renderSize = tileSize * gameSize;
-
-		AbstractTile[][] map = game.getArena().getCurrentMap();
-
-		assert map.length == map[0].length; // only quadratic maps are allowed
 
 		List<Player> players = game.getPlayers();
 
@@ -47,7 +43,7 @@ public class Renderer {
 					}
 				}
 				if (!renderPlayer) {
-					curSprite = map[j / tileSize][i / tileSize].getSprite();
+					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize)).getSprite();
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				} else {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));

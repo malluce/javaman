@@ -79,29 +79,30 @@ public class Player extends AbstractEntity {
 		this.game = game;
 	}
 
-	// TODO
 	public void moveUp() {
 		int xPos = position.getX();
 		int yPos = position.getY();
 		int tileSize = game.getTileSize();
 
 		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos - speed);
-		TileCoordinate newTilePosition = newXYPosition.toTileCoordinates(tileSize);
-		int newRow = newTilePosition.getRow();
-		int newCol = newTilePosition.getColumn();
+		TileCoordinate upperTilePosition = newXYPosition.toTileCoordinates(tileSize);
+		int newRow = upperTilePosition.getRow();
+		int newCol = upperTilePosition.getColumn();
 
-		if (newTilePosition.equals(this.position.toTileCoordinates(tileSize))) {
+		if (upperTilePosition.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
 			this.position = newXYPosition;
 		} else {
-			System.out.println("new x:" + newXYPosition.getX());
-			System.out.println("new y: " + newXYPosition.getY());
-			System.out.println("new row:" + newRow);
-			System.out.println("new col:" + newCol);
-			System.out.println(game.getArena().getCurrentMap()[newRow][newCol].getClass().getName());
-			if (game.getArena().getCurrentMap()[newRow][newCol].isPassable()) {
-				this.position = newXYPosition;
+			if (xPos % game.getTileSize() == 0) { // just need to check tile above (aligned)
+				if (game.getArena().getTile(upperTilePosition).isPassable()) {
+					this.position = newXYPosition;
+				}
+			} else { // need to check two upper tiles
+				TileCoordinate upperRightTilePosition = new TileCoordinate(newCol + 1, newRow);
+				if (game.getArena().getTile(upperTilePosition).isPassable()
+						&& game.getArena().getTile(upperRightTilePosition).isPassable()) {
+					this.position = newXYPosition;
+				}
 			}
-			System.err.println("Reaching new tile");
 		}
 	}
 
