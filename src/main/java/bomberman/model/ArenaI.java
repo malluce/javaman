@@ -6,6 +6,6 @@ public interface ArenaI {
 
 	int getSize();
 
-	AbstractTile[][] getCurrentMap();
+	AbstractTile getTile(TileCoordinate coord);
 
 }

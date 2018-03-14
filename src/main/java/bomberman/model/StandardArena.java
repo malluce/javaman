@@ -1,8 +1,8 @@
 package bomberman.model;
 
 /**
- * A standard arena where the borders are undestroyable blocks. Inside the arena
- * there are randomly placed destroyable blocks.
+ * A standard arena where the borders are undestroyable blocks. Inside the arena there are randomly placed destroyable
+ * blocks.
  * 
  * @author Felix Bachmann
  *
@@ -19,9 +19,8 @@ public class StandardArena implements ArenaI {
 	 * Creates a new StandardArena with a specific size.
 	 * 
 	 * @param size
-	 *            The size of the arena to be created. The created arena will
-	 *            have size * size tiles and be quadratic. Has to be at least 4,
-	 *            otherwise an Exception is thrown.
+	 *            The size of the arena to be created. The created arena will have size * size tiles and be quadratic.
+	 *            Has to be at least 4, otherwise an Exception is thrown.
 	 */
 	public StandardArena(int size) {
 		if (size < 4) {
@@ -63,8 +62,7 @@ public class StandardArena implements ArenaI {
 	}
 
 	/**
-	 * Returns the size of this arena. The arena is quadratic and has size *
-	 * size tiles.
+	 * Returns the size of this arena. The arena is quadratic and has size * size tiles.
 	 * 
 	 * @return the size
 	 */
@@ -72,14 +70,8 @@ public class StandardArena implements ArenaI {
 		return size;
 	}
 
-	/**
-	 * Returns the current map of the arena. It is a 2D array with size rows and
-	 * size columns per row.
-	 * 
-	 * @return the current map
-	 */
-	public AbstractTile[][] getCurrentMap() {
-		return currentMap;
+	public AbstractTile getTile(TileCoordinate coord) {
+		return currentMap[coord.getRow()][coord.getColumn()];
 	}
 
 	/**
@@ -92,10 +84,9 @@ public class StandardArena implements ArenaI {
 	}
 
 	/**
-	 * Returns the spawn points for players. At TileCoordinates in the returned
-	 * array there will be an EmptyTile. Maybe there are also some "buffer"
-	 * empty tiles so that initial movement is possible. The returned array has
-	 * a size of getMaxPlayers().
+	 * Returns the spawn points for players. At TileCoordinates in the returned array there will be an EmptyTile. Maybe
+	 * there are also some "buffer" empty tiles so that initial movement is possible. The returned array has a size of
+	 * getMaxPlayers().
 	 * 
 	 * @return the spawn points
 	 */
