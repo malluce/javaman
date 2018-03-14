@@ -2,11 +2,8 @@ package bomberman.model;
 
 import java.net.URL;
 
-import bomberman.Main;
-
 /**
- * Encapsulates everything the players have in common. (e.g. moving, planting
- * bombs)
+ * Encapsulates everything the players have in common. (e.g. moving, planting bombs)
  * 
  * @author Felix Bachmann
  *
@@ -86,13 +83,14 @@ public class Player extends AbstractEntity {
 	public void moveUp() {
 		int xPos = position.getX();
 		int yPos = position.getY();
+		int tileSize = game.getTileSize();
 
 		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos - speed);
-		TileCoordinate newTilePosition = newXYPosition.toTileCoordinates(Main.TILE_SIZE);
+		TileCoordinate newTilePosition = newXYPosition.toTileCoordinates(tileSize);
 		int newRow = newTilePosition.getRow();
 		int newCol = newTilePosition.getColumn();
 
-		if (newTilePosition.equals(this.position.toTileCoordinates(Main.TILE_SIZE))) {
+		if (newTilePosition.equals(this.position.toTileCoordinates(tileSize))) {
 			this.position = newXYPosition;
 		} else {
 			System.out.println("new x:" + newXYPosition.getX());

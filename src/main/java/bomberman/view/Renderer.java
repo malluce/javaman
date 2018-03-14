@@ -8,39 +8,35 @@ import bomberman.model.Game;
 import bomberman.model.Player;
 
 public class Renderer {
-	private final int RENDER_SIZE;
-	private final int TILE_SIZE;
+	private Game game;
 
-	public Renderer(int renderSize, int tileSize) throws IllegalRenderSizesException {
-		if (renderSize % tileSize != 0) {
-			throw new IllegalRenderSizesException("tileSize has to be a divisor of renderSize.");
-		}
-		this.RENDER_SIZE = renderSize;
-		this.TILE_SIZE = tileSize;
+	public Renderer(Game game) {
+		this.game = game;
 	}
 
-	public BufferedImage render(Game game, BufferedImage renderImage) throws IllegalRenderSizesException {
+	public BufferedImage render(BufferedImage renderImage) throws IllegalRenderSizesException {
+		int tileSize = game.getTileSize();
+		int gameSize = game.getGameSize();
+		int renderSize = tileSize * gameSize;
+
 		AbstractTile[][] map = game.getArena().getCurrentMap();
 
 		assert map.length == map[0].length; // only quadratic maps are allowed
-		if (map.length * TILE_SIZE != RENDER_SIZE) {
-			throw new IllegalRenderSizesException("the arena can not be rendered into an image of size " + RENDER_SIZE);
-		}
 
 		List<Player> players = game.getPlayers();
 
 		BufferedImage curSprite = null;
 		Player curPlayer = null;
 		boolean renderPlayer = false;
-		for (int i = 0; i < RENDER_SIZE; i++) {
-			for (int j = 0; j < RENDER_SIZE; j++) {
+		for (int i = 0; i < renderSize; i++) {
+			for (int j = 0; j < renderSize; j++) {
 				renderPlayer = false;
 				for (int x = 0; x < players.size(); x++) {
 					curPlayer = players.get(x);
 					int xPos = curPlayer.getX();
 					int yPos = curPlayer.getY();
 
-					if ((i >= xPos) && (i < (xPos + TILE_SIZE)) && j >= yPos && j < (yPos + TILE_SIZE)) {
+					if ((i >= xPos) && (i < (xPos + tileSize)) && j >= yPos && j < (yPos + tileSize)) {
 						curSprite = curPlayer.getSprite();
 						if (getPlayerRGB(i, j, curSprite, curPlayer) == 0xffffffff) {
 							renderPlayer = false;
@@ -51,7 +47,7 @@ public class Renderer {
 					}
 				}
 				if (!renderPlayer) {
-					curSprite = map[j / TILE_SIZE][i / TILE_SIZE].getSprite();
+					curSprite = map[j / tileSize][i / tileSize].getSprite();
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				} else {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
@@ -63,10 +59,12 @@ public class Renderer {
 	}
 
 	private int getPlayerRGB(int i, int j, BufferedImage sprite, Player player) {
-		return sprite.getRGB((i - player.getX()) % TILE_SIZE, (j - player.getY()) % TILE_SIZE);
+		int tileSize = game.getTileSize();
+		return sprite.getRGB((i - player.getX()) % tileSize, (j - player.getY()) % tileSize);
 	}
 
 	private int getTileRGB(int i, int j, BufferedImage sprite) {
-		return sprite.getRGB(i % TILE_SIZE, j % TILE_SIZE);
+		int tileSize = game.getTileSize();
+		return sprite.getRGB(i % tileSize, j % tileSize);
 	}
 }

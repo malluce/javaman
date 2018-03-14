@@ -16,9 +16,9 @@ public class Window extends JFrame {
 	private Game game;
 	private BufferedImage img;
 	private JLabel imgLabel;
-	private PlayerInputHandler firstPlayerListener;
 
-	public Window(Game game, int size, List<PlayerInputHandler> inputHandlers) {
+	public Window(Game game, List<PlayerInputHandler> inputHandlers) {
+		int size = game.getGameSize() * game.getTileSize();
 		this.game = game;
 		this.setSize(new Dimension(size, size));
 		img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);

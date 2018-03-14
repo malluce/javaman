@@ -14,9 +14,9 @@ import bomberman.view.Window;
 
 public class Main {
 
-	public static final int TILE_SIZE = 32;
+	private static final int TILE_SIZE = 32;
 
-	public static final int GAME_SIZE = 10;
+	private static final int GAME_SIZE = 10;
 
 	public static void main(String[] args) throws IllegalRenderSizesException {
 
@@ -28,7 +28,7 @@ public class Main {
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(playerOne);
 		players.add(playerTwo);
-		Game game = new Game(arena, players);
+		Game game = new Game(arena, players, TILE_SIZE, GAME_SIZE);
 		playerOne.setGame(game);
 		playerTwo.setGame(game);
 
@@ -40,14 +40,14 @@ public class Main {
 		inputHandlers.add(firstPlayerInputHandler);
 		inputHandlers.add(secondPlayerInputHandler);
 
-		Window win = new Window(game, GAME_SIZE * TILE_SIZE, inputHandlers);
-		Renderer renderer = new Renderer(GAME_SIZE * TILE_SIZE, TILE_SIZE);
+		Window win = new Window(game, inputHandlers);
+		Renderer renderer = new Renderer(game);
 		while (true) {
 			changeState();
 			for (PlayerInputHandler inputHandler : inputHandlers) {
 				inputHandler.updateFromPressedKeys();
 			}
-			renderer.render(game, win.getImg());
+			renderer.render(win.getImg());
 			win.repaint();
 		}
 	}
