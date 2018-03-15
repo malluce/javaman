@@ -79,69 +79,115 @@ public class Player extends AbstractEntity {
 		this.game = game;
 	}
 
+	/**
+	 * Will move the player upward if possible.
+	 */
 	public void moveUp() {
-		int xPos = position.getX();
-		int yPos = position.getY();
-		int tileSize = game.getTileSize();
-
-		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos - speed);
-		TileCoordinate upperTilePosition = newXYPosition.toTileCoordinates(tileSize);
-		int newRow = upperTilePosition.getRow();
-		int newCol = upperTilePosition.getColumn();
-
-		if (upperTilePosition.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
-			this.position = newXYPosition;
-		} else {
-			if (xPos % game.getTileSize() == 0) { // just need to check tile above (aligned)
-				if (game.getArena().getTile(upperTilePosition).isPassable()) {
-					this.position = newXYPosition;
-				}
-			} else { // need to check two upper tiles
-				TileCoordinate upperRightTilePosition = new TileCoordinate(newCol + 1, newRow);
-				if (game.getArena().getTile(upperTilePosition).isPassable()
-						&& game.getArena().getTile(upperRightTilePosition).isPassable()) {
-					this.position = newXYPosition;
-				}
-			}
-		}
+		move(Direction.UP);
 	}
 
+	/**
+	 * Will move the player downward if possible.
+	 */
 	public void moveDown() {
+		move(Direction.DOWN);
+	}
+
+	/**
+	 * Will move the player leftward if possible.
+	 */
+	public void moveLeft() {
+		move(Direction.LEFT);
+	}
+
+	/**
+	 * Will move the player rightward if possible.
+	 */
+	public void moveRight() {
+		move(Direction.RIGHT);
+	}
+
+	/**
+	 * Private method to encapsulate movement (algorithms are quite similar).
+	 * 
+	 * @param dir
+	 *            the direction in which the player may move
+	 */
+	private void move(Direction dir) {
+		// relevant variables
 		int xPos = position.getX();
 		int yPos = position.getY();
 		int tileSize = game.getTileSize();
+		ArenaI arena = game.getArena();
 
-		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos + speed);
-		TileCoordinate lowerTilePosition = new XYCoordinate(xPos, yPos + speed + tileSize).toTileCoordinates(tileSize);
-		int newRow = lowerTilePosition.getRow();
-		int newCol = lowerTilePosition.getColumn();
+		XYCoordinate newXYPosition = null;
+		TileCoordinate firstTileToEnter = null; // position of the new tile that will be entered in any case (the tile in which position is)
 
-		if (lowerTilePosition.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
+		// different moving direction lead to different tiles
+		switch (dir) {
+		case LEFT:
+			newXYPosition = new XYCoordinate(xPos - speed, yPos);
+			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
+			break;
+		case RIGHT:
+			newXYPosition = new XYCoordinate(xPos + speed, yPos);
+			firstTileToEnter = new XYCoordinate(xPos + speed + tileSize - 1, yPos).toTileCoordinates(tileSize);
+			break;
+		case UP:
+			newXYPosition = new XYCoordinate(xPos, yPos - speed);
+			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
+			break;
+		case DOWN:
+			newXYPosition = new XYCoordinate(xPos, yPos + speed);
+			firstTileToEnter = new XYCoordinate(xPos, yPos + speed + tileSize - 1).toTileCoordinates(tileSize);
+			break;
+		default:
+			break;
+		}
+
+		int newRow = firstTileToEnter.getRow();
+		int newCol = firstTileToEnter.getColumn();
+		TileCoordinate secondTileToEnter = null; // if the player is not aligned he must enter two tiles at once
+
+		if (firstTileToEnter.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
 			this.position = newXYPosition;
 		} else {
-			if (xPos % game.getTileSize() == 0) { // just need to check tile below (aligned)
-				if (game.getArena().getTile(lowerTilePosition).isPassable()) {
-					this.position = newXYPosition;
+			// check if player is aligned so it is enough to check one tile
+			switch (dir) {
+			case LEFT:
+			case RIGHT:
+				if (yPos % tileSize == 0) {
+					if (arena.getTile(firstTileToEnter).isPassable()) {
+						this.position = newXYPosition;
+					}
+					return;
 				}
-			} else { // need to check two lower tiles
-				TileCoordinate lowerRightTilePosition = new TileCoordinate(newCol + 1, newRow);
-				if (game.getArena().getTile(lowerTilePosition).isPassable()
-						&& game.getArena().getTile(lowerRightTilePosition).isPassable()) {
-					this.position = newXYPosition;
+				secondTileToEnter = new TileCoordinate(newCol, newRow + 1);
+				break;
+			case UP:
+			case DOWN:
+				if (xPos % tileSize == 0) {
+					if (arena.getTile(firstTileToEnter).isPassable()) {
+						this.position = newXYPosition;
+					}
+					return;
 				}
+				secondTileToEnter = new TileCoordinate(newCol + 1, newRow);
+				break;
+			default:
+				break;
 			}
+
+			// need to check two tiles, because we did not return until now
+			if (arena.getTile(secondTileToEnter).isPassable() && arena.getTile(firstTileToEnter).isPassable()) {
+				this.position = newXYPosition;
+			}
+
 		}
-	}
-
-	public void moveLeft() {
-		this.position = new XYCoordinate(position.getX() - speed, position.getY());
-	}
-
-	public void moveRight() {
-		this.position = new XYCoordinate(position.getX() + speed, position.getY());
 	}
 
 	public boolean plantBomb() {
+		//TODO
 		return false;
 	}
 }
