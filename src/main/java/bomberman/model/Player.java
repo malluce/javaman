@@ -107,7 +107,30 @@ public class Player extends AbstractEntity {
 	}
 
 	public void moveDown() {
-		this.position = new XYCoordinate(position.getX(), position.getY() + speed);
+		int xPos = position.getX();
+		int yPos = position.getY();
+		int tileSize = game.getTileSize();
+
+		XYCoordinate newXYPosition = new XYCoordinate(xPos, yPos + speed);
+		TileCoordinate lowerTilePosition = new XYCoordinate(xPos, yPos + speed + tileSize).toTileCoordinates(tileSize);
+		int newRow = lowerTilePosition.getRow();
+		int newCol = lowerTilePosition.getColumn();
+
+		if (lowerTilePosition.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
+			this.position = newXYPosition;
+		} else {
+			if (xPos % game.getTileSize() == 0) { // just need to check tile below (aligned)
+				if (game.getArena().getTile(lowerTilePosition).isPassable()) {
+					this.position = newXYPosition;
+				}
+			} else { // need to check two lower tiles
+				TileCoordinate lowerRightTilePosition = new TileCoordinate(newCol + 1, newRow);
+				if (game.getArena().getTile(lowerTilePosition).isPassable()
+						&& game.getArena().getTile(lowerRightTilePosition).isPassable()) {
+					this.position = newXYPosition;
+				}
+			}
+		}
 	}
 
 	public void moveLeft() {
