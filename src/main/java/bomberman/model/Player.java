@@ -118,6 +118,7 @@ public class Player extends AbstractEntity {
 		int xPos = position.getX();
 		int yPos = position.getY();
 		int tileSize = game.getTileSize();
+		int gameSize = game.getGameSize();
 		ArenaI arena = game.getArena();
 
 		XYCoordinate newXYPosition = null;
@@ -128,18 +129,30 @@ public class Player extends AbstractEntity {
 		case LEFT:
 			newXYPosition = new XYCoordinate(xPos - speed, yPos);
 			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
+			if (firstTileToEnter.getColumn() < 0) { // do not leave arena
+				return;
+			}
 			break;
 		case RIGHT:
 			newXYPosition = new XYCoordinate(xPos + speed, yPos);
 			firstTileToEnter = new XYCoordinate(xPos + speed + tileSize - 1, yPos).toTileCoordinates(tileSize);
+			if (firstTileToEnter.getColumn() > gameSize) { // do not leave arena
+				return;
+			}
 			break;
 		case UP:
 			newXYPosition = new XYCoordinate(xPos, yPos - speed);
 			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
+			if (firstTileToEnter.getRow() < 0) { // do not leave arena
+				return;
+			}
 			break;
 		case DOWN:
 			newXYPosition = new XYCoordinate(xPos, yPos + speed);
 			firstTileToEnter = new XYCoordinate(xPos, yPos + speed + tileSize - 1).toTileCoordinates(tileSize);
+			if (firstTileToEnter.getRow() > gameSize) { // do not leave arena
+				return;
+			}
 			break;
 		default:
 			break;

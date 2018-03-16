@@ -14,7 +14,7 @@ public class Renderer {
 		this.game = game;
 	}
 
-	public BufferedImage render(BufferedImage renderImage) throws IllegalRenderSizesException {
+	public BufferedImage render(BufferedImage renderImage) {
 		int tileSize = game.getTileSize();
 		int gameSize = game.getGameSize();
 		int renderSize = tileSize * gameSize;

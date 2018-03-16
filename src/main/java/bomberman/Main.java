@@ -8,7 +8,6 @@ import bomberman.model.Game;
 import bomberman.model.Player;
 import bomberman.model.StandardArena;
 import bomberman.model.TileCoordinate;
-import bomberman.view.IllegalRenderSizesException;
 import bomberman.view.Renderer;
 import bomberman.view.Window;
 
@@ -18,7 +17,7 @@ public class Main {
 
 	private static final int GAME_SIZE = 10;
 
-	public static void main(String[] args) throws IllegalRenderSizesException {
+	public static void main(String[] args) {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();
