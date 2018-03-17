@@ -199,8 +199,16 @@ public class Player extends AbstractEntity {
 		}
 	}
 
-	public boolean plantBomb() {
-		//TODO
-		return false;
+	public void plantBomb() {
+		TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
+		int row = playerTile.getRow();
+		int col = playerTile.getColumn();
+
+		if (bombsLeft > 0) {
+			bombsLeft--;
+			Bomb newBomb = new Bomb("bomb.png", 1, 100, row, col);
+			game.getBombs().add(newBomb);
+			game.getArena().setTile(playerTile, newBomb);
+		}
 	}
 }

@@ -1,8 +1,10 @@
 package bomberman.view;
 
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 import java.util.List;
 
+import bomberman.model.Bomb;
 import bomberman.model.Game;
 import bomberman.model.Player;
 import bomberman.model.TileCoordinate;
@@ -20,13 +22,16 @@ public class Renderer {
 		int renderSize = tileSize * gameSize;
 
 		List<Player> players = game.getPlayers();
+		List<Bomb> bombs = game.getBombs();
 
 		BufferedImage curSprite = null;
 		Player curPlayer = null;
 		boolean renderPlayer = false;
+		boolean renderBomb = false;
 		for (int i = 0; i < renderSize; i++) {
 			for (int j = 0; j < renderSize; j++) {
 				renderPlayer = false;
+				renderBomb = false;
 				for (int x = 0; x < players.size(); x++) {
 					curPlayer = players.get(x);
 					int xPos = curPlayer.getX();
@@ -42,11 +47,29 @@ public class Renderer {
 						break;
 					}
 				}
-				if (!renderPlayer) {
-					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize)).getSprite();
+				for (Iterator<Bomb> bombIt = bombs.iterator(); bombIt.hasNext();) {
+					Bomb bomb = bombIt.next();
+					int col = bomb.getCol();
+					int row = bomb.getRow();
+					if (i / tileSize == col && j / tileSize == row) {
+						if (!renderPlayer) {
+							curSprite = bomb.getSprite();
+						}
+
+						renderBomb = true;
+						break;
+					} else {
+						renderBomb = false;
+					}
+
+				}
+				if (renderPlayer) {
+					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
+				} else if (renderBomb) {
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				} else {
-					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
+					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize)).getSprite();
+					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				}
 
 			}

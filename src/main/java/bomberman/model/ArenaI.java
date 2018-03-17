@@ -8,4 +8,6 @@ public interface ArenaI {
 
 	AbstractTile getTile(TileCoordinate coord);
 
+	void setTile(TileCoordinate coord, AbstractTile newTile);
+
 }

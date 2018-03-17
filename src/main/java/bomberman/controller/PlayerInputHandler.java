@@ -21,6 +21,7 @@ public class PlayerInputHandler implements KeyListener {
 	private final int keyCodeRight;
 	private final int keyCodeUp;
 	private final int keyCodeDown;
+	private final int keyCodePlant;
 
 	/**
 	 * Creates a new input handler.
@@ -37,12 +38,13 @@ public class PlayerInputHandler implements KeyListener {
 	 *            the keyCode constant which is used for moving down
 	 */
 	public PlayerInputHandler(Player player, final int keyCodeLeft, final int keyCodeRight, final int keyCodeUp,
-			final int keyCodeDown) {
+			final int keyCodeDown, final int keyCodePlant) {
 		this.player = player;
 		this.keyCodeLeft = keyCodeLeft;
 		this.keyCodeRight = keyCodeRight;
 		this.keyCodeUp = keyCodeUp;
 		this.keyCodeDown = keyCodeDown;
+		this.keyCodePlant = keyCodePlant;
 	}
 
 	/**
@@ -60,19 +62,28 @@ public class PlayerInputHandler implements KeyListener {
 	}
 
 	/**
-	 * Invoked when a key is pressed. This key is added to the pressed keys,
-	 * i.e. until the key is released movement may be invoked.
+	 * Invoked when a key is pressed. This key is added to the pressed keys, i.e. until the key is released movement may
+	 * be invoked.
 	 */
 	public void keyPressed(KeyEvent arg0) {
 		int keyCode = arg0.getKeyCode();
-		isPressed.put(arg0.getKeyCode(), true);
-		invokeMovement(keyCode);
+		if (keyCode == keyCodePlant) {
+			// plant key
+			invokePlant();
+		} else {
+			// movement key
+			isPressed.put(keyCode, true);
+			invokeMovement(keyCode);
+		}
+	}
+
+	private void invokePlant() {
+		this.player.plantBomb();
 	}
 
 	/**
-	 * Invokes the movement that may be triggered by pressing the button with a
-	 * keyCode. Just does something if the keyCode matches one of the keyCodes
-	 * handed over for this PlayerInputHandler inside the constructor.
+	 * Invokes the movement that may be triggered by pressing the button with a keyCode. Just does something if the
+	 * keyCode matches one of the keyCodes handed over for this PlayerInputHandler inside the constructor.
 	 * 
 	 * @param keyCode
 	 *            the keyCode of the key which has been pressed
@@ -100,8 +111,8 @@ public class PlayerInputHandler implements KeyListener {
 	}
 
 	/**
-	 * Invoked when a key is released. This key is removed from the pressed
-	 * keys, i.e. no more movement for this key is invoked until pressed again.
+	 * Invoked when a key is released. This key is removed from the pressed keys, i.e. no more movement for this key is
+	 * invoked until pressed again.
 	 */
 	public void keyReleased(KeyEvent arg0) {
 		isPressed.put(arg0.getKeyCode(), false);

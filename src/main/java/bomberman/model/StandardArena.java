@@ -74,6 +74,10 @@ public class StandardArena implements ArenaI {
 		return currentMap[coord.getRow()][coord.getColumn()];
 	}
 
+	public void setTile(TileCoordinate coord, AbstractTile tile) {
+		currentMap[coord.getRow()][coord.getColumn()] = tile;
+	}
+
 	/**
 	 * Returns the amount of players that are able to play inside this arena.
 	 * 

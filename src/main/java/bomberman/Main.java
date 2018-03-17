@@ -33,9 +33,9 @@ public class Main {
 
 		ArrayList<PlayerInputHandler> inputHandlers = new ArrayList<PlayerInputHandler>();
 		PlayerInputHandler firstPlayerInputHandler = new PlayerInputHandler(playerOne, KeyEvent.VK_LEFT,
-				KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+				KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_NUMPAD0);
 		PlayerInputHandler secondPlayerInputHandler = new PlayerInputHandler(playerTwo, KeyEvent.VK_A, KeyEvent.VK_D,
-				KeyEvent.VK_W, KeyEvent.VK_S);
+				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_SPACE);
 		inputHandlers.add(firstPlayerInputHandler);
 		inputHandlers.add(secondPlayerInputHandler);
 

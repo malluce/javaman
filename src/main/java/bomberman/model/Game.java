@@ -1,7 +1,7 @@
 package bomberman.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
@@ -21,7 +21,7 @@ public class Game {
 		this.gameSize = gameSize;
 		this.arena = arena;
 		this.players = players;
-		this.bombs = new ArrayList<Bomb>();
+		this.bombs = new CopyOnWriteArrayList<Bomb>();
 	}
 
 	public int getGameSize() {
