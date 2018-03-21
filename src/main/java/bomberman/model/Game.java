@@ -23,7 +23,7 @@ public class Game {
 		this.players = players;
 		int maxBombs = 0;
 		for (Player player : players) {
-			maxBombs += player.getBombsLeft();
+			maxBombs += player.getMaxBombs();
 		}
 		this.bombs = new Bomb[maxBombs];
 
@@ -72,7 +72,13 @@ public class Game {
 	public void plantBomb(Player plantingPlayer, Bomb plantedBomb) {
 		arena.setTile(plantingPlayer.getTileCoordinate(), plantedBomb);
 		int id = plantingPlayer.getId();
-		bombs[id + plantingPlayer.getBombsLeft()] = plantedBomb;
+		for (int curId = plantingPlayer.getId(); curId <= id + plantingPlayer.getMaxBombs(); curId++) {
+			if (bombs[curId] == null) {
+				System.out.println("Player " + plantingPlayer.getId() + " planting bomb in [" + curId + "]");
+				bombs[curId] = plantedBomb;
+				break;
+			}
+		}
 	}
 
 }

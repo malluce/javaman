@@ -12,6 +12,7 @@ public class Player extends AbstractEntity {
 	private final String SPRITE_NAME;
 	private XYCoordinate position;
 	private int bombsLeft;
+	private int maxBombs;
 	private int speed = 1;
 	private int ID;
 
@@ -35,6 +36,7 @@ public class Player extends AbstractEntity {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
+		this.maxBombs = amountOfBombs;
 		this.game = game;
 	}
 
@@ -45,6 +47,10 @@ public class Player extends AbstractEntity {
 	 */
 	public int getBombsLeft() {
 		return bombsLeft;
+	}
+
+	public int getMaxBombs() {
+		return maxBombs;
 	}
 
 	/**
