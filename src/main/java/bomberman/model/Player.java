@@ -27,8 +27,6 @@ public class Player extends AbstractEntity {
 	 *            the initial position of the player
 	 * @param amountOfBombs
 	 *            the amount of bombs the player has (at the start of the game)
-	 * @param size
-	 *            the size of the player
 	 * @param game
 	 *            the game the player is alive in
 	 */
@@ -49,6 +47,11 @@ public class Player extends AbstractEntity {
 		return bombsLeft;
 	}
 
+	/**
+	 * Returns the maximum amount of bombs the player may plant at once.
+	 * 
+	 * @return the maximum amount of bombs
+	 */
 	public int getMaxBombs() {
 		return maxBombs;
 	}
@@ -71,10 +74,20 @@ public class Player extends AbstractEntity {
 		return position.getY();
 	}
 
+	/**
+	 * Returns the TileCoordinate of this player. (= "hitbox" of this player)
+	 * 
+	 * @return the TileCoordinate
+	 */
 	public TileCoordinate getTileCoordinate() {
 		return this.position.toTileCoordinates(game.getTileSize());
 	}
 
+	/**
+	 * Returns the id of this player. It is unique amongst all players.
+	 * 
+	 * @return the id
+	 */
 	public int getId() {
 		return this.ID;
 	}
@@ -84,7 +97,16 @@ public class Player extends AbstractEntity {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
 	}
 
-	public void setGame(Game game) throws IllegalIdRequest {
+	/**
+	 * Sets the game this player plays. Only has an effect once hence the game is not allowed to change in the lifetime
+	 * of a player.
+	 * 
+	 * @param game
+	 *            the game to set
+	 * @throws IllegalIdRequestException
+	 *             is thrown if there is no id for this player in the game because the game is already full
+	 */
+	public void setGame(Game game) throws IllegalIdRequestException {
 		if (this.game == null) {
 			this.game = game;
 			this.ID = game.nextId();
@@ -211,11 +233,14 @@ public class Player extends AbstractEntity {
 		}
 	}
 
+	/**
+	 * Tries to plant a bomb. Only has an effect if the player has bombs left to plant. In that case the amount of bombs
+	 * left will be decremented and the bomb will be planted.
+	 */
 	public void plantBomb() {
-		TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
-
 		if (bombsLeft > 0) {
 			bombsLeft--;
+			TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
 			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile);
 			game.plantBomb(this, newBomb);
 		}

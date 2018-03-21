@@ -1,9 +1,23 @@
 package bomberman.model;
 
+/**
+ * Represents a coordinate of a not tile-aligned entity in the game. (e.g. a player)
+ * 
+ * @author Felix Bachmann
+ *
+ */
 public class XYCoordinate {
 	private int x;
 	private int y;
 
+	/**
+	 * Creates a new XYCoordinate.
+	 * 
+	 * @param x
+	 *            the x position of the XYCoordinate
+	 * @param y
+	 *            the y position of the XYCoordinate
+	 */
 	public XYCoordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -28,22 +42,32 @@ public class XYCoordinate {
 		}
 	}
 
+	/**
+	 * Returns the x position of the XYCoordinate.
+	 * 
+	 * @return x position
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Returns the y position of the XYCoordinate.
+	 * 
+	 * @return y position
+	 */
 	public int getY() {
 		return y;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
+	/**
+	 * Calculates the tile coordinate of this XYCoordinate. May be used for calculating the "hitbox" of an moving entity
+	 * (e.g. a player).
+	 * 
+	 * @param tileSize
+	 *            the size of a tile
+	 * @return the TileCoordinate of this XYCoordinate
+	 */
 	public TileCoordinate toTileCoordinates(int tileSize) {
 		int row = y / tileSize;
 		int col = x / tileSize;

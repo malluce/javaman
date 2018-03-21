@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import bomberman.controller.PlayerInputHandler;
 import bomberman.model.Game;
-import bomberman.model.IllegalIdRequest;
+import bomberman.model.IllegalIdRequestException;
 import bomberman.model.Player;
 import bomberman.model.StandardArena;
 import bomberman.model.TileCoordinate;
@@ -18,7 +18,7 @@ public class Main {
 
 	private static final int GAME_SIZE = 10;
 
-	public static void main(String[] args) throws IllegalIdRequest {
+	public static void main(String[] args) throws IllegalIdRequestException {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();

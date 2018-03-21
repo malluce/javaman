@@ -16,6 +16,19 @@ public class Game {
 	private final int gameSize;
 	private int currentId = 0;
 
+	/**
+	 * Creates a new game.
+	 * 
+	 * @param arena
+	 *            the arena is which the game is taking place
+	 * @param players
+	 *            the players that will play the game
+	 * @param tileSize
+	 *            the size of a tile in pixels
+	 * @param gameSize
+	 *            the size of the game. hence all arenas are quadratic this value refers to the amount of tiles in a row
+	 *            or column
+	 */
 	public Game(ArenaI arena, List<Player> players, int tileSize, int gameSize) {
 		this.tileSize = tileSize;
 		this.gameSize = gameSize;
@@ -29,52 +42,80 @@ public class Game {
 
 	}
 
+	/**
+	 * Returns the size of the game.
+	 * 
+	 * @return size of the game
+	 */
 	public int getGameSize() {
 		return this.gameSize;
 	}
 
+	/**
+	 * Returns the size of a tile.
+	 * 
+	 * @return size of a tile
+	 */
 	public int getTileSize() {
 		return this.tileSize;
 	}
 
+	/**
+	 * Returns the arena in which the game is taking place.
+	 * 
+	 * @return the arena
+	 */
 	public ArenaI getArena() {
 		return arena;
 	}
 
-	public void setArena(ArenaI arena) {
-		this.arena = arena;
-	}
-
+	/**
+	 * Returns the players which are playing the game.
+	 * 
+	 * @return the players
+	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
-
+	/**
+	 * Returns the array of bombs. Entries may be null if not all bombs are currently planted.
+	 * 
+	 * @return the bombs
+	 */
 	public Bomb[] getBombs() {
 		return bombs;
 	}
 
-	public void setBombs(Bomb[] bombs) {
-		this.bombs = bombs;
-	}
-
-	public int nextId() throws IllegalIdRequest {
+	/**
+	 * Allocates a new player id and returns it.
+	 * 
+	 * @return a id
+	 * @throws IllegalIdRequestException
+	 *             thrown if there are no more ids to distribute.
+	 */
+	public int nextId() throws IllegalIdRequestException {
 		if (currentId < players.size()) {
 			return currentId++;
 		} else {
-			throw new IllegalIdRequest("all available IDs have been assigned to players.");
+			throw new IllegalIdRequestException("all available IDs have been assigned to players.");
 		}
 	}
 
+	/**
+	 * Plants a bomb in the arena. The caller must assure that the player is allowed to plant the bomb.
+	 * 
+	 * @param plantingPlayer
+	 *            the player which is planting the bomb
+	 * @param plantedBomb
+	 *            the bomb which will be planted
+	 */
 	public void plantBomb(Player plantingPlayer, Bomb plantedBomb) {
 		arena.setTile(plantingPlayer.getTileCoordinate(), plantedBomb);
 		int id = plantingPlayer.getId();
-		for (int curId = plantingPlayer.getId(); curId <= id + plantingPlayer.getMaxBombs(); curId++) {
+		for (int curId = id; curId <= id + plantingPlayer.getMaxBombs(); curId++) {
+			// search the area in the bomb array of a player for free entries (= null entries)
 			if (bombs[curId] == null) {
-				System.out.println("Player " + plantingPlayer.getId() + " planting bomb in [" + curId + "]");
 				bombs[curId] = plantedBomb;
 				break;
 			}

@@ -61,28 +61,22 @@ public class StandardArena implements ArenaI {
 
 	}
 
-	/**
-	 * Returns the size of this arena. The arena is quadratic and has size * size tiles.
-	 * 
-	 * @return the size
-	 */
+	@Override
 	public int getSize() {
 		return size;
 	}
 
+	@Override
 	public AbstractTile getTile(TileCoordinate coord) {
 		return currentMap[coord.getRow()][coord.getColumn()];
 	}
 
+	@Override
 	public void setTile(TileCoordinate coord, AbstractTile tile) {
 		currentMap[coord.getRow()][coord.getColumn()] = tile;
 	}
 
-	/**
-	 * Returns the amount of players that are able to play inside this arena.
-	 * 
-	 * @return the amount of player allowed in this arena
-	 */
+	@Override
 	public int getMaxPlayers() {
 		return MAX_PLAYERS;
 	}

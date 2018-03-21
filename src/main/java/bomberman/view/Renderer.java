@@ -49,10 +49,12 @@ public class Renderer {
 
 				for (int z = 0; z < bombs.length; z++) {
 					Bomb bomb = bombs[z];
-					if (bomb == null)
+					if (bomb == null) {
 						continue;
-					int col = bomb.getCol();
-					int row = bomb.getRow();
+					}
+					TileCoordinate coord = bomb.getTileCoordinate();
+					int col = coord.getColumn();
+					int row = coord.getRow();
 					if (z / tileSize == col && j / tileSize == row) {
 						if (!renderPlayer) {
 							curSprite = bomb.getSprite();
