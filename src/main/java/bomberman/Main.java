@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import bomberman.controller.PlayerInputHandler;
 import bomberman.model.Game;
+import bomberman.model.IllegalIdRequest;
 import bomberman.model.Player;
 import bomberman.model.StandardArena;
 import bomberman.model.TileCoordinate;
@@ -17,12 +18,12 @@ public class Main {
 
 	private static final int GAME_SIZE = 10;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalIdRequest {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();
-		Player playerOne = new Player("player_one.png", spawnPoints[0].toXYCoordinates(TILE_SIZE), 1, null, 1);
-		Player playerTwo = new Player("player_two.png", spawnPoints[1].toXYCoordinates(TILE_SIZE), 1, null, 2);
+		Player playerOne = new Player("player_one.png", spawnPoints[0].toXYCoordinates(TILE_SIZE), 1, null);
+		Player playerTwo = new Player("player_two.png", spawnPoints[1].toXYCoordinates(TILE_SIZE), 1, null);
 
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(playerOne);

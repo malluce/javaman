@@ -13,7 +13,7 @@ public class Player extends AbstractEntity {
 	private XYCoordinate position;
 	private int bombsLeft;
 	private int speed = 1;
-	private final int ID;
+	private int ID;
 
 	private Game game;
 
@@ -31,12 +31,11 @@ public class Player extends AbstractEntity {
 	 * @param game
 	 *            the game the player is alive in
 	 */
-	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game, int id) {
+	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game) {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
 		this.game = game;
-		this.ID = id;
 	}
 
 	/**
@@ -66,6 +65,10 @@ public class Player extends AbstractEntity {
 		return position.getY();
 	}
 
+	public TileCoordinate getTileCoordinate() {
+		return this.position.toTileCoordinates(game.getTileSize());
+	}
+
 	public int getId() {
 		return this.ID;
 	}
@@ -75,8 +78,11 @@ public class Player extends AbstractEntity {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
+	public void setGame(Game game) throws IllegalIdRequest {
+		if (this.game == null) {
+			this.game = game;
+			this.ID = game.nextId();
+		}
 	}
 
 	/**
@@ -201,14 +207,11 @@ public class Player extends AbstractEntity {
 
 	public void plantBomb() {
 		TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
-		int row = playerTile.getRow();
-		int col = playerTile.getColumn();
 
 		if (bombsLeft > 0) {
 			bombsLeft--;
-			Bomb newBomb = new Bomb("bomb.png", 1, 100, row, col);
-			game.getBombs().add(newBomb);
-			game.getArena().setTile(playerTile, newBomb);
+			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile);
+			game.plantBomb(this, newBomb);
 		}
 	}
 }

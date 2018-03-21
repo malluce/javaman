@@ -4,17 +4,15 @@ import java.net.URL;
 
 public class Bomb extends AbstractTile {
 	private final String SPRITE_NAME;
-	private int row;
-	private int col;
+	private TileCoordinate tileCoord;
 	private int radius;
 	private int ticks;
 
-	public Bomb(String spriteName, int radius, int ticks, int row, int col) {
+	public Bomb(String spriteName, int radius, int ticks, TileCoordinate tileCoord) {
 		this.SPRITE_NAME = spriteName;
 		this.radius = radius;
 		this.ticks = ticks;
-		this.row = row;
-		this.col = col;
+		this.tileCoord = tileCoord;
 	}
 
 	@Override
@@ -28,11 +26,15 @@ public class Bomb extends AbstractTile {
 	}
 
 	public int getCol() {
-		return this.col;
+		return this.tileCoord.getColumn();
 	}
 
 	public int getRow() {
-		return this.row;
+		return this.tileCoord.getRow();
+	}
+
+	public TileCoordinate getTileCoordinate() {
+		return this.tileCoord;
 	}
 
 	@Override

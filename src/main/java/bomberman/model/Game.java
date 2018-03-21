@@ -1,7 +1,6 @@
 package bomberman.model;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
@@ -12,16 +11,22 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Game {
 	private ArenaI arena;
 	private List<Player> players;
-	private List<Bomb> bombs;
+	private Bomb[] bombs;
 	private final int tileSize;
 	private final int gameSize;
+	private int currentId = 0;
 
 	public Game(ArenaI arena, List<Player> players, int tileSize, int gameSize) {
 		this.tileSize = tileSize;
 		this.gameSize = gameSize;
 		this.arena = arena;
 		this.players = players;
-		this.bombs = new CopyOnWriteArrayList<Bomb>();
+		int maxBombs = 0;
+		for (Player player : players) {
+			maxBombs += player.getBombsLeft();
+		}
+		this.bombs = new Bomb[maxBombs];
+
 	}
 
 	public int getGameSize() {
@@ -48,12 +53,26 @@ public class Game {
 		this.players = players;
 	}
 
-	public List<Bomb> getBombs() {
+	public Bomb[] getBombs() {
 		return bombs;
 	}
 
-	public void setBombs(List<Bomb> bombs) {
+	public void setBombs(Bomb[] bombs) {
 		this.bombs = bombs;
+	}
+
+	public int nextId() throws IllegalIdRequest {
+		if (currentId < players.size()) {
+			return currentId++;
+		} else {
+			throw new IllegalIdRequest("all available IDs have been assigned to players.");
+		}
+	}
+
+	public void plantBomb(Player plantingPlayer, Bomb plantedBomb) {
+		arena.setTile(plantingPlayer.getTileCoordinate(), plantedBomb);
+		int id = plantingPlayer.getId();
+		bombs[id + plantingPlayer.getBombsLeft()] = plantedBomb;
 	}
 
 }

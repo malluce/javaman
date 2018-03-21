@@ -1,7 +1,6 @@
 package bomberman.view;
 
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 import java.util.List;
 
 import bomberman.model.Bomb;
@@ -22,7 +21,7 @@ public class Renderer {
 		int renderSize = tileSize * gameSize;
 
 		List<Player> players = game.getPlayers();
-		List<Bomb> bombs = game.getBombs();
+		Bomb[] bombs = game.getBombs();
 
 		BufferedImage curSprite = null;
 		Player curPlayer = null;
@@ -47,11 +46,14 @@ public class Renderer {
 						break;
 					}
 				}
-				for (Iterator<Bomb> bombIt = bombs.iterator(); bombIt.hasNext();) {
-					Bomb bomb = bombIt.next();
+
+				for (int z = 0; z < bombs.length; z++) {
+					Bomb bomb = bombs[z];
+					if (bomb == null)
+						continue;
 					int col = bomb.getCol();
 					int row = bomb.getRow();
-					if (i / tileSize == col && j / tileSize == row) {
+					if (z / tileSize == col && j / tileSize == row) {
 						if (!renderPlayer) {
 							curSprite = bomb.getSprite();
 						}
@@ -61,8 +63,8 @@ public class Renderer {
 					} else {
 						renderBomb = false;
 					}
-
 				}
+
 				if (renderPlayer) {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
 				} else if (renderBomb) {
