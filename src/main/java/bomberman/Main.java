@@ -1,6 +1,7 @@
 package bomberman;
 
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import bomberman.controller.PlayerInputHandler;
@@ -18,7 +19,11 @@ public class Main {
 
 	private static final int GAME_SIZE = 10;
 
-	public static void main(String[] args) throws IllegalIdRequestException {
+	private static final double MILLIS_PER_RENDER = 7; // about 144 FPS
+
+	private static final double MILLIS_PER_TICK = 1;
+
+	public static void main(String[] args) throws IllegalIdRequestException, InterruptedException {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();
@@ -42,18 +47,39 @@ public class Main {
 
 		Window win = new Window(game, inputHandlers);
 		Renderer renderer = new Renderer(game);
-		while (true) {
-			changeState();
-			for (PlayerInputHandler inputHandler : inputHandlers) {
-				inputHandler.updateFromPressedKeys();
+		BufferedImage winImage = win.getImg();
+
+		boolean gameRunning = true;
+		long nextTick = System.currentTimeMillis();
+		long nextRender = nextTick;
+
+		while (gameRunning) {
+			long loopStart = System.currentTimeMillis();
+
+			if (loopStart >= nextRender) {
+				renderer.render(winImage);
+				win.repaint();
+				do {
+					nextRender += MILLIS_PER_RENDER;
+				} while (loopStart >= nextRender);
 			}
-			renderer.render(win.getImg());
-			win.repaint();
+
+			if (loopStart >= nextTick) {
+				changeState();
+				for (PlayerInputHandler inputHandler : inputHandlers) {
+					inputHandler.updateFromPressedKeys();
+				}
+				do {
+					nextTick += MILLIS_PER_TICK;
+				} while (loopStart >= nextTick);
+			}
+
+			long loopEnd = System.currentTimeMillis();
+			long delay = Math.min(nextTick - loopEnd, nextRender - loopEnd);
+			if (delay > 0) {
+				Thread.sleep(delay);
+			}
 		}
-	}
-
-	static void handleInput() {
-
 	}
 
 	static void changeState() {

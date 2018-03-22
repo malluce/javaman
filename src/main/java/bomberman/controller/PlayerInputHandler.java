@@ -90,20 +90,12 @@ public class PlayerInputHandler implements KeyListener {
 	 */
 	private void invokeMovement(int keyCode) {
 		if (keyCode == keyCodeLeft) {
-			// System.out.println("Player " + player.getId() + ": Try to move
-			// left.");
 			player.moveLeft();
 		} else if (keyCode == keyCodeRight) {
-			// System.out.println("Player " + player.getId() + ": Try to move
-			// right.");
 			player.moveRight();
 		} else if (keyCode == keyCodeUp) {
-			// System.out.println("Player " + player.getId() + ": Try to move
-			// up.");
 			player.moveUp();
 		} else if (keyCode == keyCodeDown) {
-			// System.out.println("Player " + player.getId() + ": Try to move
-			// down.");
 			player.moveDown();
 		} else {
 
