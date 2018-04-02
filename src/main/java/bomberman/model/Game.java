@@ -122,4 +122,16 @@ public class Game {
 		}
 	}
 
+	public void tickBombs() {
+		for (Bomb b : bombs) {
+			if (b != null) {
+				b.tick();
+				if (b.hasFinished()) {
+					b = null;
+				}
+			}
+
+		}
+	}
+
 }

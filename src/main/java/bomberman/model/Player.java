@@ -241,7 +241,7 @@ public class Player extends AbstractEntity {
 		if (bombsLeft > 0) {
 			bombsLeft--;
 			TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
-			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile);
+			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile, 100);
 			game.plantBomb(this, newBomb);
 		}
 	}

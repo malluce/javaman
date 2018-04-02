@@ -69,6 +69,7 @@ public class Main {
 
 			if (loopStart >= nextTick) {
 				changeState();
+				game.tickBombs();
 				for (PlayerInputHandler inputHandler : inputHandlers) {
 					inputHandler.updateFromPressedKeys();
 				}
