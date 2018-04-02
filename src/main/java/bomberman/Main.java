@@ -14,14 +14,17 @@ import bomberman.view.Renderer;
 import bomberman.view.Window;
 
 public class Main {
+	private static final int FPS = 144;
+
+	private static final int TPS = 100;
 
 	private static final int TILE_SIZE = 32;
 
 	private static final int GAME_SIZE = 10;
 
-	private static final double MILLIS_PER_RENDER = 7; // about 144 FPS
+	private static final double MILLIS_PER_RENDER = 1000 / FPS;
 
-	private static final double MILLIS_PER_TICK = 1;
+	private static final double MILLIS_PER_TICK = 1000 / TPS;
 
 	public static void main(String[] args) throws IllegalIdRequestException, InterruptedException {
 
