@@ -1,9 +1,11 @@
 package bomberman.model;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
+ * Represents the game. Handles the actions players may try to do. (e.g. moving,
+ * planting a bomb etc.)
  * 
  * @author Felix Bachmann
  *
@@ -26,8 +28,8 @@ public class Game {
 	 * @param tileSize
 	 *            the size of a tile in pixels
 	 * @param gameSize
-	 *            the size of the game. hence all arenas are quadratic this value refers to the amount of tiles in a row
-	 *            or column
+	 *            the size of the game. hence all arenas are quadratic this
+	 *            value refers to the amount of tiles in a row or column
 	 */
 	public Game(ArenaI arena, List<Player> players, int tileSize, int gameSize) {
 		this.tileSize = tileSize;
@@ -79,7 +81,8 @@ public class Game {
 	}
 
 	/**
-	 * Returns the array of bombs. Entries may be null if not all bombs are currently planted.
+	 * Returns the array of bombs. Entries may be null if not all bombs are
+	 * currently planted.
 	 * 
 	 * @return the bombs
 	 */
@@ -103,7 +106,8 @@ public class Game {
 	}
 
 	/**
-	 * Plants a bomb in the arena. The caller must assure that the player is allowed to plant the bomb.
+	 * Plants a bomb in the arena. The caller must assure that the player is
+	 * allowed to plant the bomb.
 	 * 
 	 * @param plantingPlayer
 	 *            the player which is planting the bomb
@@ -113,8 +117,9 @@ public class Game {
 	public void plantBomb(Player plantingPlayer, Bomb plantedBomb) {
 		arena.setTile(plantingPlayer.getTileCoordinate(), plantedBomb);
 		int id = plantingPlayer.getId();
-		for (int curId = id; curId <= id + plantingPlayer.getMaxBombs(); curId++) {
-			// search the area in the bomb array of a player for free entries (= null entries)
+		for (int curId = id; curId < id + plantingPlayer.getMaxBombs(); curId++) {
+			// search the area in the bomb array of a player for free entries (=
+			// null entries)
 			if (bombs[curId] == null) {
 				bombs[curId] = plantedBomb;
 				break;
@@ -123,15 +128,49 @@ public class Game {
 	}
 
 	public void tickBombs() {
-		for (Bomb b : bombs) {
+		for (int i = 0; i < bombs.length; i++) {
+			Bomb b = bombs[i];
 			if (b != null) {
-				b.tick();
-				if (b.hasFinished()) {
-					b = null;
+				if (b.isTicking()) {
+					b.tick();
+				} else if (b.isExploding()) {
+					if (b.getExplosionTicks() == b.getMaxExplosionTicks()) {
+						explodeBomb(b);
+					}
+					b.tick();
+				} else if (b.hasFinished()) {
+					clearExplosions(b);
+					bombs[i] = null;
 				}
 			}
-
 		}
+	}
+
+	private void clearExplosions(Bomb b) {
+		List<TileCoordinate> tilesToClearIfEmpty = b.getAffectedTileCoordinates();
+		Iterator<TileCoordinate> iter = tilesToClearIfEmpty.iterator();
+		while (iter.hasNext()) {
+			TileCoordinate coord = iter.next();
+			AbstractTile tile = arena.getTile(coord);
+			if (tile instanceof ExplodingTile) {
+				arena.setTile(coord, EmptyTile.getInstance());
+			}
+		}
+		Player pl = b.getPlayer();
+		pl.setBombsLeft(pl.getBombsLeft() + 1);
+	}
+
+	private void explodeBomb(Bomb b) {
+		List<TileCoordinate> tilesToExplode = b.getAffectedTileCoordinates();
+
+		for (int i = 0; i < tilesToExplode.size(); i++) {
+			TileCoordinate curCoord = tilesToExplode.get(i);
+			AbstractTile tile = arena.getTile(curCoord);
+			if (tile.isDestroyable() || tile instanceof Bomb) {
+				arena.setTile(curCoord, ExplodingTile.getInstance());
+			}
+		}
+
 	}
 
 }
