@@ -16,7 +16,7 @@ import bomberman.view.Window;
 public class Main {
 	private static final int FPS = 144;
 
-	private static final int TPS = 100;
+	private static final int TPS = 144;
 
 	private static final int TILE_SIZE = 32;
 
