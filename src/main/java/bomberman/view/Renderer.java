@@ -50,16 +50,13 @@ public class Renderer {
 				for (int z = 0; z < bombs.length; z++) {
 					Bomb bomb = bombs[z];
 					if (bomb == null) {
+						renderBomb = false;
 						continue;
 					}
 					TileCoordinate coord = bomb.getTileCoordinate();
 					int col = coord.getColumn();
 					int row = coord.getRow();
-					if (z / tileSize == col && j / tileSize == row) {
-						if (!renderPlayer) {
-							curSprite = bomb.getSprite();
-						}
-
+					if (i / tileSize == col && j / tileSize == row) {
 						renderBomb = true;
 						break;
 					} else {
@@ -69,8 +66,6 @@ public class Renderer {
 
 				if (renderPlayer) {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
-				} else if (renderBomb) {
-					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				} else {
 					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize)).getSprite();
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
