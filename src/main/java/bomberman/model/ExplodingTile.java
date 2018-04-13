@@ -2,28 +2,18 @@ package bomberman.model;
 
 import java.net.URL;
 
-/**
- * Represents a tile that is empty, so is passable by players.
- * 
- * @author Felix Bachmann
- *
- */
-public class EmptyTile extends AbstractTile {
-	private static EmptyTile instance = null;
-	private final String SPRITE_NAME = "empty_tile.png";
-
-	private EmptyTile() {
-
-	}
+public class ExplodingTile extends AbstractTile {
+	private static ExplodingTile instance = null;
+	private final String SPRITE_NAME = "explosion.png";
 
 	/**
 	 * Returns an instance of this class. Always returns the same instance.
 	 * 
-	 * @return an instance of EmptyTile
+	 * @return an instance of ExplodingTile
 	 */
-	public static EmptyTile getInstance() {
+	public static ExplodingTile getInstance() {
 		if (instance == null) {
-			instance = new EmptyTile();
+			instance = new ExplodingTile();
 		}
 		return instance;
 	}
@@ -35,7 +25,7 @@ public class EmptyTile extends AbstractTile {
 
 	@Override
 	public boolean isDestroyable() {
-		return true;
+		return false;
 	}
 
 	@Override
