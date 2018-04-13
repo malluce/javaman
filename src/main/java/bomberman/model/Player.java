@@ -3,7 +3,8 @@ package bomberman.model;
 import java.net.URL;
 
 /**
- * Encapsulates everything the players have in common. (e.g. moving, planting bombs)
+ * Encapsulates everything the players have in common. (e.g. moving, planting
+ * bombs)
  * 
  * @author Felix Bachmann
  *
@@ -97,14 +98,19 @@ public class Player extends AbstractEntity {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
 	}
 
+	public void setBombsLeft(int bombsLeft) {
+		this.bombsLeft = bombsLeft;
+	}
+
 	/**
-	 * Sets the game this player plays. Only has an effect once hence the game is not allowed to change in the lifetime
-	 * of a player.
+	 * Sets the game this player plays. Only has an effect once hence the game
+	 * is not allowed to change in the lifetime of a player.
 	 * 
 	 * @param game
 	 *            the game to set
 	 * @throws IllegalIdRequestException
-	 *             is thrown if there is no id for this player in the game because the game is already full
+	 *             is thrown if there is no id for this player in the game
+	 *             because the game is already full
 	 */
 	public void setGame(Game game) throws IllegalIdRequestException {
 		if (this.game == null) {
@@ -156,7 +162,10 @@ public class Player extends AbstractEntity {
 		ArenaI arena = game.getArena();
 
 		XYCoordinate newXYPosition = null;
-		TileCoordinate firstTileToEnter = null; // position of the new tile that will be entered in any case (the tile in which position is)
+		TileCoordinate firstTileToEnter = null; // position of the new tile that
+												// will be entered in any case
+												// (the tile in which position
+												// is)
 
 		// different moving direction lead to different tiles
 		switch (dir) {
@@ -194,9 +203,13 @@ public class Player extends AbstractEntity {
 
 		int newRow = firstTileToEnter.getRow();
 		int newCol = firstTileToEnter.getColumn();
-		TileCoordinate secondTileToEnter = null; // if the player is not aligned he must enter two tiles at once
+		TileCoordinate secondTileToEnter = null; // if the player is not aligned
+													// he must enter two tiles
+													// at once
 
-		if (firstTileToEnter.equals(this.position.toTileCoordinates(tileSize))) { // no tile change
+		if (firstTileToEnter.equals(this.position.toTileCoordinates(tileSize))) { // no
+																					// tile
+																					// change
 			this.position = newXYPosition;
 		} else {
 			// check if player is aligned so it is enough to check one tile
@@ -234,14 +247,15 @@ public class Player extends AbstractEntity {
 	}
 
 	/**
-	 * Tries to plant a bomb. Only has an effect if the player has bombs left to plant. In that case the amount of bombs
-	 * left will be decremented and the bomb will be planted.
+	 * Tries to plant a bomb. Only has an effect if the player has bombs left to
+	 * plant. In that case the amount of bombs left will be decremented and the
+	 * bomb will be planted.
 	 */
 	public void plantBomb() {
 		if (bombsLeft > 0) {
 			bombsLeft--;
 			TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
-			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile, 100);
+			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile, 100, this);
 			game.plantBomb(this, newBomb);
 		}
 	}
