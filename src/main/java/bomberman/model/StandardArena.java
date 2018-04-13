@@ -1,8 +1,8 @@
 package bomberman.model;
 
 /**
- * A standard arena where the borders are undestroyable blocks. Inside the arena there are randomly placed destroyable
- * blocks.
+ * A standard arena where the borders are undestroyable blocks. Inside the arena
+ * there are randomly placed destroyable blocks.
  * 
  * @author Felix Bachmann
  *
@@ -19,8 +19,9 @@ public class StandardArena implements ArenaI {
 	 * Creates a new StandardArena with a specific size.
 	 * 
 	 * @param size
-	 *            The size of the arena to be created. The created arena will have size * size tiles and be quadratic.
-	 *            Has to be at least 4, otherwise an Exception is thrown.
+	 *            The size of the arena to be created. The created arena will
+	 *            have size * size tiles and be quadratic. Has to be at least 4,
+	 *            otherwise an Exception is thrown.
 	 */
 	public StandardArena(int size) {
 		if (size < 4) {
@@ -61,30 +62,27 @@ public class StandardArena implements ArenaI {
 
 	}
 
-	@Override
 	public int getSize() {
 		return size;
 	}
 
-	@Override
 	public AbstractTile getTile(TileCoordinate coord) {
 		return currentMap[coord.getRow()][coord.getColumn()];
 	}
 
-	@Override
 	public void setTile(TileCoordinate coord, AbstractTile tile) {
 		currentMap[coord.getRow()][coord.getColumn()] = tile;
 	}
 
-	@Override
 	public int getMaxPlayers() {
 		return MAX_PLAYERS;
 	}
 
 	/**
-	 * Returns the spawn points for players. At TileCoordinates in the returned array there will be an EmptyTile. Maybe
-	 * there are also some "buffer" empty tiles so that initial movement is possible. The returned array has a size of
-	 * getMaxPlayers().
+	 * Returns the spawn points for players. At TileCoordinates in the returned
+	 * array there will be an EmptyTile. Maybe there are also some "buffer"
+	 * empty tiles so that initial movement is possible. The returned array has
+	 * a size of getMaxPlayers().
 	 * 
 	 * @return the spawn points
 	 */
