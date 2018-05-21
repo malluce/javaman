@@ -30,8 +30,8 @@ public class Main {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();
-		Player playerOne = new Player("player_one.png", spawnPoints[0].toXYCoordinates(TILE_SIZE), 1, null);
-		Player playerTwo = new Player("player_two.png", spawnPoints[1].toXYCoordinates(TILE_SIZE), 1, null);
+		Player playerOne = new Player("player_one.png", spawnPoints[0].toXYCoordinates(TILE_SIZE), 1, 1, null);
+		Player playerTwo = new Player("player_two.png", spawnPoints[1].toXYCoordinates(TILE_SIZE), 1, 1, null);
 
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(playerOne);

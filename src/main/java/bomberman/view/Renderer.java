@@ -33,6 +33,11 @@ public class Renderer {
 				renderBomb = false;
 				for (int x = 0; x < players.size(); x++) {
 					curPlayer = players.get(x);
+
+					if (!curPlayer.isAlive()) {
+						continue;
+					}
+
 					int xPos = curPlayer.getX();
 					int yPos = curPlayer.getY();
 

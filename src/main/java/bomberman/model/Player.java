@@ -3,19 +3,19 @@ package bomberman.model;
 import java.net.URL;
 
 /**
- * Encapsulates everything the players have in common. (e.g. moving, planting
- * bombs)
+ * Encapsulates everything the players have in common. (e.g. moving, planting bombs)
  * 
  * @author Felix Bachmann
  *
  */
 public class Player extends GameElement {
 	private final String SPRITE_NAME;
+	private int ID;
 	private XYCoordinate position;
 	private int bombsLeft;
 	private int maxBombs;
 	private int speed = 1;
-	private int ID;
+	private int lifes;
 
 	private Game game;
 
@@ -31,12 +31,13 @@ public class Player extends GameElement {
 	 * @param game
 	 *            the game the player is alive in
 	 */
-	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, Game game) {
+	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, int lifes, Game game) {
 		this.SPRITE_NAME = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
 		this.maxBombs = amountOfBombs;
 		this.game = game;
+		this.lifes = lifes;
 	}
 
 	/**
@@ -93,6 +94,10 @@ public class Player extends GameElement {
 		return this.ID;
 	}
 
+	public boolean isAlive() {
+		return this.lifes > 0;
+	}
+
 	@Override
 	public URL getSpriteURL() {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
@@ -103,14 +108,13 @@ public class Player extends GameElement {
 	}
 
 	/**
-	 * Sets the game this player plays. Only has an effect once hence the game
-	 * is not allowed to change in the lifetime of a player.
+	 * Sets the game this player plays. Only has an effect once hence the game is not allowed to change in the lifetime
+	 * of a player.
 	 * 
 	 * @param game
 	 *            the game to set
 	 * @throws IllegalIdRequestException
-	 *             is thrown if there is no id for this player in the game
-	 *             because the game is already full
+	 *             is thrown if there is no id for this player in the game because the game is already full
 	 */
 	public void setGame(Game game) throws IllegalIdRequestException {
 		if (this.game == null) {
@@ -246,10 +250,13 @@ public class Player extends GameElement {
 		}
 	}
 
+	public void hit() {
+		this.lifes--;
+	}
+
 	/**
-	 * Tries to plant a bomb. Only has an effect if the player has bombs left to
-	 * plant. In that case the amount of bombs left will be decremented and the
-	 * bomb will be planted.
+	 * Tries to plant a bomb. Only has an effect if the player has bombs left to plant. In that case the amount of bombs
+	 * left will be decremented and the bomb will be planted.
 	 */
 	public void plantBomb() {
 		if (bombsLeft > 0) {

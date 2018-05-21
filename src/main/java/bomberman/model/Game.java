@@ -181,6 +181,12 @@ public class Game {
 			if (tile.isDestroyable() || tile instanceof Bomb) {
 				arena.setTile(curCoord, ExplodingTile.getInstance());
 			}
+			for (Player pl : players) {
+				if (pl.getTileCoordinate().equals(curCoord)) {
+					pl.hit();
+				}
+			}
+
 		}
 
 	}

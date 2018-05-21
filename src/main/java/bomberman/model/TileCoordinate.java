@@ -35,11 +35,7 @@ public class TileCoordinate {
 
 		TileCoordinate oCoordinate = (TileCoordinate) o;
 
-		if (oCoordinate.getColumn() == this.getColumn() && oCoordinate.getRow() == this.getRow()) {
-			return true;
-		} else {
-			return false;
-		}
+		return oCoordinate.getColumn() == this.getColumn() && oCoordinate.getRow() == this.getRow();
 	}
 
 	/**
