@@ -3,4 +3,8 @@
   <groupId>my.games.bomberman</groupId>
   <artifactId>bomberman</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+  	<maven.compiler.source>10</maven.compiler.source>
+  	<maven.compiler.target>10</maven.compiler.target>
+  </properties>
 </project>
