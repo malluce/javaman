@@ -9,7 +9,7 @@ import java.net.URL;
  * @author Felix Bachmann
  *
  */
-public class Player extends AbstractEntity {
+public class Player extends GameElement {
 	private final String SPRITE_NAME;
 	private XYCoordinate position;
 	private int bombsLeft;

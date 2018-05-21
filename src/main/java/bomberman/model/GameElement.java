@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  * @author Felix Bachmann
  *
  */
-public abstract class AbstractEntity {
+public abstract class GameElement {
 	protected BufferedImage spriteImg = null;
 
 	/**

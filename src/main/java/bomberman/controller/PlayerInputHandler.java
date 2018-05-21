@@ -9,7 +9,7 @@ import java.util.Set;
 import bomberman.model.Player;
 
 /**
- * This class handles the input a player may do.
+ * This class handles the input by a player via keyboard.
  * 
  * @author Felix Bachmann
  *
@@ -36,6 +36,8 @@ public class PlayerInputHandler implements KeyListener {
 	 *            the keyCode constant which is used for moving up
 	 * @param keyCodeDown
 	 *            the keyCode constant which is used for moving down
+	 * @param keyCodePlant
+	 *            the keyCode constant which is used for planting a bomb
 	 */
 	public PlayerInputHandler(Player player, final int keyCodeLeft, final int keyCodeRight, final int keyCodeUp,
 			final int keyCodeDown, final int keyCodePlant) {
@@ -64,6 +66,9 @@ public class PlayerInputHandler implements KeyListener {
 	/**
 	 * Invoked when a key is pressed. This key is added to the pressed keys, i.e. until the key is released movement may
 	 * be invoked.
+	 * 
+	 * @param arg0
+	 *            the event triggered by the pressed key
 	 */
 	public void keyPressed(KeyEvent arg0) {
 		int keyCode = arg0.getKeyCode();
@@ -97,22 +102,23 @@ public class PlayerInputHandler implements KeyListener {
 			player.moveUp();
 		} else if (keyCode == keyCodeDown) {
 			player.moveDown();
-		} else {
-
 		}
 	}
 
 	/**
 	 * Invoked when a key is released. This key is removed from the pressed keys, i.e. no more movement for this key is
 	 * invoked until pressed again.
+	 * 
+	 * @param arg0
+	 *            the event triggered by the pressed key
 	 */
 	public void keyReleased(KeyEvent arg0) {
 		isPressed.put(arg0.getKeyCode(), false);
 	}
 
-	public void keyTyped(KeyEvent arg0) {
-		// TODO
-
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// method not used, only Unicode inputs are processed by this method. this is not what we want
 	}
 
 }

@@ -4,8 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Represents the game. Handles the actions players may try to do. (e.g. moving,
- * planting a bomb etc.)
+ * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
  * 
  * @author Felix Bachmann
  *
@@ -28,8 +27,8 @@ public class Game {
 	 * @param tileSize
 	 *            the size of a tile in pixels
 	 * @param gameSize
-	 *            the size of the game. hence all arenas are quadratic this
-	 *            value refers to the amount of tiles in a row or column
+	 *            the size of the game. hence all arenas are quadratic this value refers to the amount of tiles in a row
+	 *            or column
 	 */
 	public Game(ArenaI arena, List<Player> players, int tileSize, int gameSize) {
 		this.tileSize = tileSize;
@@ -81,8 +80,7 @@ public class Game {
 	}
 
 	/**
-	 * Returns the array of bombs. Entries may be null if not all bombs are
-	 * currently planted.
+	 * Returns the array of bombs. Entries may be null if not all bombs are currently planted.
 	 * 
 	 * @return the bombs
 	 */
@@ -106,8 +104,7 @@ public class Game {
 	}
 
 	/**
-	 * Plants a bomb in the arena. The caller must assure that the player is
-	 * allowed to plant the bomb.
+	 * Plants a bomb in the arena. The caller must assure that the player is allowed to plant the bomb.
 	 * 
 	 * @param plantingPlayer
 	 *            the player which is planting the bomb
@@ -127,6 +124,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Ticks down the bombs and handles events indicated by the state of the bombs which are present after ticking.
+	 */
 	public void tickBombs() {
 		for (int i = 0; i < bombs.length; i++) {
 			Bomb b = bombs[i];
@@ -146,7 +146,13 @@ public class Game {
 		}
 	}
 
-	private void clearExplosions(Bomb b) {
+	/**
+	 * Clears the explosions of a given bomb, that is setting the tiles affected by this bomb to an {@link EmptyTile}
+	 * 
+	 * @param b
+	 *            the bomb of which the explosions should be cleared
+	 */
+	public void clearExplosions(Bomb b) {
 		List<TileCoordinate> tilesToClearIfEmpty = b.getAffectedTileCoordinates();
 		Iterator<TileCoordinate> iter = tilesToClearIfEmpty.iterator();
 		while (iter.hasNext()) {
@@ -160,6 +166,12 @@ public class Game {
 		pl.setBombsLeft(pl.getBombsLeft() + 1);
 	}
 
+	/**
+	 * Let a bomb explode, that is setting the tiles affected by this bomb to an {@link ExplodingTile}.
+	 * 
+	 * @param b
+	 *            the bomb to explode
+	 */
 	private void explodeBomb(Bomb b) {
 		List<TileCoordinate> tilesToExplode = b.getAffectedTileCoordinates();
 

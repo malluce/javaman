@@ -6,7 +6,7 @@ package bomberman.model;
  * @author Felix Bachmann
  *
  */
-public abstract class AbstractTile extends AbstractEntity {
+public abstract class AbstractTile extends GameElement {
 
 	/**
 	 * Indicates whether the tile is passable by a player.

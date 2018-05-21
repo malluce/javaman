@@ -27,6 +27,7 @@ public interface ArenaI {
 	 * 
 	 * @param coord
 	 *            the coordinate of the tile that is returned
+	 * @return the tile
 	 */
 	AbstractTile getTile(TileCoordinate coord);
 
@@ -35,8 +36,9 @@ public interface ArenaI {
 	 * 
 	 * @param coord
 	 *            the coordinate of the tile to be set
-	 * @param tile
+	 * @param newTile
 	 *            the new tile at coord position
+	 * 
 	 */
 	void setTile(TileCoordinate coord, AbstractTile newTile);
 
