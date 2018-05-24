@@ -42,4 +42,6 @@ public interface ArenaI {
 	 */
 	void setTile(TileCoordinate coord, AbstractTile newTile);
 
+	TileCoordinate[] getSpawnPoints();
+
 }

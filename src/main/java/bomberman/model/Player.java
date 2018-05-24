@@ -1,6 +1,12 @@
 package bomberman.model;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+import utils.ImageResizer;
 
 /**
  * Encapsulates everything the players have in common. (e.g. moving, planting bombs)
@@ -265,5 +271,25 @@ public class Player extends GameElement {
 			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile, 100, this);
 			game.plantBomb(this, newBomb);
 		}
+	}
+
+	@Override
+	public BufferedImage getSprite(int spriteSize) {
+		if (spriteImg == null) {
+			try {
+				spriteImg = ImageIO.read(getSpriteURL());
+				for (int i = 0; i < spriteImg.getWidth(); i++) {
+					for (int j = 0; j < spriteImg.getHeight(); j++) {
+						if (spriteImg.getRGB(i, j) == 0xffffffff) {
+							spriteImg.setRGB(i, j, 0x00000000);
+						}
+					}
+				}
+				spriteImg = ImageResizer.scale(spriteImg, spriteSize, spriteSize);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return spriteImg;
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import bomberman.controller.PlayerInputHandler;
+import bomberman.model.ArenaI;
 import bomberman.model.Game;
 import bomberman.model.IllegalIdRequestException;
 import bomberman.model.Player;
@@ -18,10 +19,9 @@ public class Main {
 
 	private static final int TPS = 120;
 
-	private static final int TILE_SIZE = 64;
+	public static final int TILE_SIZE = 64;
 
-	// TODO resize sprite bufimgs -> allow scaling of tile size
-	private static final int GAME_SIZE = 10;
+	public static final int GAME_SIZE = 10;
 
 	private static final double MILLIS_PER_RENDER = 1000 / FPS;
 
@@ -40,7 +40,7 @@ public class Main {
 	 */
 	public static void main(String[] args) throws IllegalIdRequestException, InterruptedException {
 
-		StandardArena arena = new StandardArena(GAME_SIZE);
+		ArenaI arena = new StandardArena(GAME_SIZE);
 		TileCoordinate[] spawnPoints = arena.getSpawnPoints();
 		Player playerOne = new Player("player_one.png", spawnPoints[0].toXYCoordinates(TILE_SIZE), 1, 1, null);
 		Player playerTwo = new Player("player_two.png", spawnPoints[1].toXYCoordinates(TILE_SIZE), 1, 1, null);
@@ -61,8 +61,8 @@ public class Main {
 		inputHandlers.add(secondPlayerInputHandler);
 
 		Window win = new Window(game, inputHandlers);
-		Renderer renderer = new Renderer(game);
 		BufferedImage winImage = win.getImg();
+		Renderer renderer = new Renderer(game, win, winImage.createGraphics());
 
 		boolean gameRunning = true;
 		long nextTick = System.currentTimeMillis();
@@ -72,7 +72,7 @@ public class Main {
 			long loopStart = System.currentTimeMillis();
 
 			if (loopStart >= nextRender) {
-				renderer.render(winImage);
+				renderer.render();
 				win.repaint();
 				do {
 					nextRender += MILLIS_PER_RENDER;

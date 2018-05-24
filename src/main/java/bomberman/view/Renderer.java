@@ -1,12 +1,16 @@
 package bomberman.view;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 import java.util.List;
 
+import bomberman.Main;
+import bomberman.model.AbstractTile;
+import bomberman.model.ArenaI;
 import bomberman.model.Bomb;
 import bomberman.model.Game;
 import bomberman.model.Player;
 import bomberman.model.TileCoordinate;
+import bomberman.model.XYCoordinate;
 
 /**
  * Renders the game.
@@ -16,6 +20,8 @@ import bomberman.model.TileCoordinate;
  */
 public class Renderer {
 	private Game game;
+	private Window win;
+	private Graphics2D gr;
 
 	/**
 	 * Creates a new renderer to render a {@link Game}.
@@ -23,92 +29,49 @@ public class Renderer {
 	 * @param game
 	 *            the game to render
 	 */
-	public Renderer(Game game) {
+	public Renderer(Game game, Window win, Graphics2D gr) {
 		this.game = game;
+		this.win = win;
+		this.gr = gr;
 	}
 
-	/**
-	 * Renders the {@link Game} supplied to this {@link Renderer} in the constructor into a {@link BufferedImage}
-	 * 
-	 * @param renderImage
-	 *            the image to render
-	 * @return the modified renderImage
-	 */
-	// TODO make more readable, add parallelity
-	public BufferedImage render(BufferedImage renderImage) {
-		int tileSize = game.getTileSize();
-		int gameSize = game.getGameSize();
-		int renderSize = tileSize * gameSize;
+	public void render() {
+		drawArena();
 
-		List<Player> players = game.getPlayers();
-		Bomb[] bombs = game.getBombs();
+		drawBombs();
 
-		BufferedImage curSprite = null;
-		Player curPlayer = null;
-		boolean renderPlayer = false;
-		boolean renderBomb = false;
-		for (int i = 0; i < renderSize; i++) {
-			for (int j = 0; j < renderSize; j++) {
-				renderPlayer = false;
-				renderBomb = false;
-				for (int x = 0; x < players.size(); x++) {
-					curPlayer = players.get(x);
+		drawPlayers();
 
-					if (!curPlayer.isAlive()) {
-						continue;
-					}
+		win.repaint();
+	}
 
-					int xPos = curPlayer.getX();
-					int yPos = curPlayer.getY();
-
-					if ((i >= xPos) && (i < (xPos + tileSize)) && j >= yPos && j < (yPos + tileSize)) {
-						curSprite = curPlayer.getSprite(game.getTileSize());
-						if (getPlayerRGB(i, j, curSprite, curPlayer) == 0xffffffff) {
-							renderPlayer = false;
-						} else {
-							renderPlayer = true;
-						}
-						break;
-					}
-				}
-
-				for (int z = 0; z < bombs.length; z++) {
-					Bomb bomb = bombs[z];
-					if (bomb == null) {
-						renderBomb = false;
-						continue;
-					}
-					TileCoordinate coord = bomb.getTileCoordinate();
-					int col = coord.getColumn();
-					int row = coord.getRow();
-					if (i / tileSize == col && j / tileSize == row) {
-						renderBomb = true;
-						break;
-					} else {
-						renderBomb = false;
-					}
-				}
-
-				if (renderPlayer) {
-					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
-				} else {
-					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize))
-							.getSprite(game.getTileSize());
-					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
-				}
-
+	private void drawArena() {
+		ArenaI arena = game.getArena();
+		for (int i = 0; i < Main.GAME_SIZE; i++) {
+			for (int j = 0; j < Main.GAME_SIZE; j++) {
+				AbstractTile tile = arena.getTile(new TileCoordinate(i, j));
+				gr.drawImage(tile.getSprite(Main.TILE_SIZE), i * Main.TILE_SIZE, j * Main.TILE_SIZE, null);
 			}
 		}
-		return renderImage;
 	}
 
-	private int getPlayerRGB(int i, int j, BufferedImage sprite, Player player) {
-		int tileSize = game.getTileSize();
-		return sprite.getRGB((i - player.getX()) % tileSize, (j - player.getY()) % tileSize);
+	private void drawPlayers() {
+		List<Player> players = game.getPlayers();
+		for (Player pl : players) {
+			if (pl.isAlive()) {
+				gr.drawImage(pl.getSprite(Main.TILE_SIZE), pl.getX(), pl.getY(), null);
+			}
+		}
 	}
 
-	private int getTileRGB(int i, int j, BufferedImage sprite) {
-		int tileSize = game.getTileSize();
-		return sprite.getRGB(i % tileSize, j % tileSize);
+	private void drawBombs() {
+		Bomb[] bombs = game.getBombs();
+		for (Bomb bo : bombs) {
+			if (bo == null || bo.isExploding()) {
+				continue;
+			}
+			XYCoordinate xy = bo.getTileCoordinate().toXYCoordinates(Main.TILE_SIZE);
+			gr.drawImage(bo.getSprite(Main.TILE_SIZE), xy.getX(), xy.getY(), null);
+		}
 	}
 }
