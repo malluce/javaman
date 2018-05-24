@@ -14,18 +14,30 @@ import bomberman.view.Renderer;
 import bomberman.view.Window;
 
 public class Main {
-	private static final int FPS = 144;
+	private static final int FPS = 60;
 
-	private static final int TPS = 144;
+	private static final int TPS = 120;
 
-	private static final int TILE_SIZE = 32;
+	private static final int TILE_SIZE = 64;
 
+	// TODO resize sprite bufimgs -> allow scaling of tile size
 	private static final int GAME_SIZE = 10;
 
 	private static final double MILLIS_PER_RENDER = 1000 / FPS;
 
 	private static final double MILLIS_PER_TICK = 1000 / TPS;
 
+	/**
+	 * Contains the main game logic.
+	 * 
+	 * @param args
+	 *            command line arguments
+	 * @throws IllegalIdRequestException
+	 *             is thrown if more {@link Player}s are supplied to a {@link Game} than indicated by its maxPlayers
+	 *             value.
+	 * @throws InterruptedException
+	 *             is thrown if a thread is interrupted while waiting inside game loop
+	 */
 	public static void main(String[] args) throws IllegalIdRequestException, InterruptedException {
 
 		StandardArena arena = new StandardArena(GAME_SIZE);

@@ -8,13 +8,33 @@ import bomberman.model.Game;
 import bomberman.model.Player;
 import bomberman.model.TileCoordinate;
 
+/**
+ * Renders the game.
+ * 
+ * @author Felix Bachmann
+ *
+ */
 public class Renderer {
 	private Game game;
 
+	/**
+	 * Creates a new renderer to render a {@link Game}.
+	 * 
+	 * @param game
+	 *            the game to render
+	 */
 	public Renderer(Game game) {
 		this.game = game;
 	}
 
+	/**
+	 * Renders the {@link Game} supplied to this {@link Renderer} in the constructor into a {@link BufferedImage}
+	 * 
+	 * @param renderImage
+	 *            the image to render
+	 * @return the modified renderImage
+	 */
+	// TODO make more readable, add parallelity
 	public BufferedImage render(BufferedImage renderImage) {
 		int tileSize = game.getTileSize();
 		int gameSize = game.getGameSize();
@@ -42,7 +62,7 @@ public class Renderer {
 					int yPos = curPlayer.getY();
 
 					if ((i >= xPos) && (i < (xPos + tileSize)) && j >= yPos && j < (yPos + tileSize)) {
-						curSprite = curPlayer.getSprite();
+						curSprite = curPlayer.getSprite(game.getTileSize());
 						if (getPlayerRGB(i, j, curSprite, curPlayer) == 0xffffffff) {
 							renderPlayer = false;
 						} else {
@@ -72,7 +92,8 @@ public class Renderer {
 				if (renderPlayer) {
 					renderImage.setRGB(i, j, getPlayerRGB(i, j, curSprite, curPlayer));
 				} else {
-					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize)).getSprite();
+					curSprite = game.getArena().getTile(new TileCoordinate(i / tileSize, j / tileSize))
+							.getSprite(game.getTileSize());
 					renderImage.setRGB(i, j, getTileRGB(i, j, curSprite));
 				}
 

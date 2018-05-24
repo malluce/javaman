@@ -8,7 +8,8 @@ import java.net.URL;
  * @author Felix Bachmann
  *
  */
-public class UndestroyableTile extends AbstractTile {
+public final class UndestroyableTile extends AbstractTile {
+	private static final String IMAGE_NAME = "undestroyable_block.png";
 	private static UndestroyableTile instance = null;
 
 	private UndestroyableTile() {
@@ -39,7 +40,7 @@ public class UndestroyableTile extends AbstractTile {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource("undestroyable_block.png");
+		return getClass().getClassLoader().getResource(IMAGE_NAME);
 	}
 
 }

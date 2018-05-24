@@ -8,7 +8,7 @@ import java.net.URL;
  * @author Felix Bachmann
  *
  */
-public class EmptyTile extends AbstractTile {
+public final class EmptyTile extends AbstractTile {
 	private static EmptyTile instance = null;
 	private final String SPRITE_NAME = "empty_tile.png";
 
