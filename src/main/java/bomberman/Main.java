@@ -73,14 +73,12 @@ public class Main {
 
 			if (loopStart >= nextRender) {
 				renderer.render();
-				win.repaint();
 				do {
 					nextRender += MILLIS_PER_RENDER;
 				} while (loopStart >= nextRender);
 			}
 
 			if (loopStart >= nextTick) {
-				changeState();
 				game.tickBombs();
 				for (PlayerInputHandler inputHandler : inputHandlers) {
 					inputHandler.updateFromPressedKeys();
@@ -97,9 +95,4 @@ public class Main {
 			}
 		}
 	}
-
-	static void changeState() {
-
-	}
-
 }

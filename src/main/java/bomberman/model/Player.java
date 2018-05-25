@@ -16,7 +16,7 @@ import utils.ImageResizer;
  */
 public class Player extends GameElement {
 	private final String SPRITE_NAME;
-	private int ID;
+	private int id;
 	private XYCoordinate position;
 	private int bombsLeft;
 	private int maxBombs;
@@ -34,6 +34,8 @@ public class Player extends GameElement {
 	 *            the initial position of the player
 	 * @param amountOfBombs
 	 *            the amount of bombs the player has (at the start of the game)
+	 * @param lifes
+	 *            the initial amount of lifes the player has
 	 * @param game
 	 *            the game the player is alive in
 	 */
@@ -97,9 +99,14 @@ public class Player extends GameElement {
 	 * @return the id
 	 */
 	public int getId() {
-		return this.ID;
+		return this.id;
 	}
 
+	/**
+	 * Returns true if the player is alive, false otherwise.
+	 * 
+	 * @return if the player is alive
+	 */
 	public boolean isAlive() {
 		return this.lifes > 0;
 	}
@@ -109,7 +116,16 @@ public class Player extends GameElement {
 		return getClass().getClassLoader().getResource(SPRITE_NAME);
 	}
 
+	/**
+	 * Sets the amount of bombs the player is still able to plant.
+	 * 
+	 * @param bombsLeft
+	 *            the amount of bombs, has to be >= 0.
+	 */
 	public void setBombsLeft(int bombsLeft) {
+		if (bombsLeft < 0) {
+			throw new IllegalArgumentException("bombsLeft has to be greater or equal to zero");
+		}
 		this.bombsLeft = bombsLeft;
 	}
 
@@ -125,7 +141,7 @@ public class Player extends GameElement {
 	public void setGame(Game game) throws IllegalIdRequestException {
 		if (this.game == null) {
 			this.game = game;
-			this.ID = game.nextId();
+			this.id = game.nextId();
 		}
 	}
 
@@ -178,6 +194,7 @@ public class Player extends GameElement {
 												// is)
 
 		// different moving direction lead to different tiles
+
 		switch (dir) {
 		case LEFT:
 			newXYPosition = new XYCoordinate(xPos - speed, yPos);
@@ -224,7 +241,7 @@ public class Player extends GameElement {
 		} else {
 			// check if player is aligned so it is enough to check one tile
 			switch (dir) {
-			case LEFT:
+			case LEFT: // fall through
 			case RIGHT:
 				if (yPos % tileSize == 0) {
 					if (arena.getTile(firstTileToEnter).isPassable()) {
@@ -234,7 +251,7 @@ public class Player extends GameElement {
 				}
 				secondTileToEnter = new TileCoordinate(newCol, newRow + 1);
 				break;
-			case UP:
+			case UP: // fall through
 			case DOWN:
 				if (xPos % tileSize == 0) {
 					if (arena.getTile(firstTileToEnter).isPassable()) {
@@ -256,8 +273,13 @@ public class Player extends GameElement {
 		}
 	}
 
+	/**
+	 * Hits the player, that is decrements the lifes of the player by 1.
+	 */
 	public void hit() {
-		this.lifes--;
+		if (isAlive()) {
+			this.lifes--;
+		}
 	}
 
 	/**
@@ -265,7 +287,7 @@ public class Player extends GameElement {
 	 * left will be decremented and the bomb will be planted.
 	 */
 	public void plantBomb() {
-		if (bombsLeft > 0) {
+		if (bombsLeft > 0 && isAlive()) {
 			bombsLeft--;
 			TileCoordinate playerTile = this.position.toTileCoordinates(game.getTileSize());
 			Bomb newBomb = new Bomb("bomb.png", 1, 100, playerTile, 100, this);
@@ -278,6 +300,8 @@ public class Player extends GameElement {
 		if (spriteImg == null) {
 			try {
 				spriteImg = ImageIO.read(getSpriteURL());
+				// adds transparency, needed due to images of players.
+				// TODO change on disk, no overriding needed then
 				for (int i = 0; i < spriteImg.getWidth(); i++) {
 					for (int j = 0; j < spriteImg.getHeight(); j++) {
 						if (spriteImg.getRGB(i, j) == 0xffffffff) {
