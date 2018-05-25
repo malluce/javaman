@@ -35,11 +35,7 @@ public class XYCoordinate {
 
 		XYCoordinate oCoordinate = (XYCoordinate) o;
 
-		if (oCoordinate.getX() == this.getX() && oCoordinate.getY() == this.getY()) {
-			return true;
-		} else {
-			return false;
-		}
+		return oCoordinate.getX() == this.getX() && oCoordinate.getY() == this.getY();
 	}
 
 	/**

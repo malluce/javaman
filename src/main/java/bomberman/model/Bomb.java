@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class Bomb extends AbstractTile {
-	private final String SPRITE_NAME;
+	private final String spriteName;
 	private TileCoordinate tileCoord;
 	private int radius;
 	private long ticks;
@@ -42,7 +42,7 @@ public class Bomb extends AbstractTile {
 			throw new IllegalArgumentException("Radius and ticks must be at least 1");
 		}
 
-		this.SPRITE_NAME = spriteName;
+		this.spriteName = spriteName;
 		this.radius = radius;
 		this.ticks = ticks;
 		this.maxTicks = ticks;
@@ -65,7 +65,7 @@ public class Bomb extends AbstractTile {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource(SPRITE_NAME);
+		return getClass().getClassLoader().getResource(spriteName);
 	}
 
 	/**

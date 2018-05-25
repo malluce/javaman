@@ -15,7 +15,7 @@ import utils.ImageResizer;
  *
  */
 public class Player extends GameElement {
-	private final String SPRITE_NAME;
+	private final String spriteName;
 	private int id;
 	private XYCoordinate position;
 	private int bombsLeft;
@@ -40,7 +40,7 @@ public class Player extends GameElement {
 	 *            the game the player is alive in
 	 */
 	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, int lifes, Game game) {
-		this.SPRITE_NAME = spriteName;
+		this.spriteName = spriteName;
 		this.position = initialPosition;
 		this.bombsLeft = amountOfBombs;
 		this.maxBombs = amountOfBombs;
@@ -113,7 +113,7 @@ public class Player extends GameElement {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource(SPRITE_NAME);
+		return getClass().getClassLoader().getResource(spriteName);
 	}
 
 	/**

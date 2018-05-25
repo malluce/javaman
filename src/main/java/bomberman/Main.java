@@ -14,18 +14,36 @@ import bomberman.model.TileCoordinate;
 import bomberman.view.Renderer;
 import bomberman.view.Window;
 
-public class Main {
+/**
+ * The main class, contains the game setup and game loop.
+ * 
+ * @author Felix Bachmann
+ *
+ */
+public final class Main {
+
 	private static final int FPS = 60;
 
 	private static final int TPS = 120;
 
+	/**
+	 * The size of a tile in pixels. Because all tiles are quadratic this constant is the height as well as the width of
+	 * a tile.
+	 */
 	public static final int TILE_SIZE = 64;
 
+	/**
+	 * The size of the game, that is the amount of tiles per row and per column. (game is also quadratic)
+	 */
 	public static final int GAME_SIZE = 10;
 
 	private static final double MILLIS_PER_RENDER = 1000 / FPS;
 
 	private static final double MILLIS_PER_TICK = 1000 / TPS;
+
+	private Main() {
+
+	}
 
 	/**
 	 * Contains the main game logic.

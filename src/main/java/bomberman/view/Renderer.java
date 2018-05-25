@@ -28,6 +28,10 @@ public class Renderer {
 	 * 
 	 * @param game
 	 *            the game to render
+	 * @param win
+	 *            the window in which the game is drawn into, contains gr. is repainted after rednering
+	 * @param gr
+	 *            graphics to render into
 	 */
 	public Renderer(Game game, Window win, Graphics2D gr) {
 		this.game = game;
@@ -35,6 +39,9 @@ public class Renderer {
 		this.gr = gr;
 	}
 
+	/**
+	 * Renders the game.
+	 */
 	public void render() {
 		drawArena();
 

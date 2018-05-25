@@ -42,6 +42,13 @@ public interface ArenaI {
 	 */
 	void setTile(TileCoordinate coord, AbstractTile newTile);
 
+	/**
+	 * Returns the spawn points for players. At TileCoordinates in the returned array there will be an EmptyTile. Maybe
+	 * there are also some "buffer" empty tiles so that initial movement is possible. The returned array has a size of
+	 * getMaxPlayers().
+	 * 
+	 * @return the spawn points
+	 */
 	TileCoordinate[] getSpawnPoints();
 
 }

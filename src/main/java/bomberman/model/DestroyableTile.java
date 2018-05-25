@@ -8,9 +8,9 @@ import java.net.URL;
  * @author Felix Bachmann
  *
  */
-public class DestroyableTile extends AbstractTile {
+public final class DestroyableTile extends AbstractTile {
 	private static DestroyableTile instance = null;
-	private final String SPRITE_NAME = "destroyable_block.png";
+	private final String spriteName = "destroyable_block.png";
 
 	private DestroyableTile() {
 
@@ -40,7 +40,7 @@ public class DestroyableTile extends AbstractTile {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource(SPRITE_NAME);
+		return getClass().getClassLoader().getResource(spriteName);
 	}
 
 }

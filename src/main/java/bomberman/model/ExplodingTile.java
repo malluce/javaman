@@ -2,9 +2,15 @@ package bomberman.model;
 
 import java.net.URL;
 
+/**
+ * Represents an exploding tile, it is fatal for players to reside inside one of these.
+ * 
+ * @author Felix Bachmann
+ *
+ */
 public class ExplodingTile extends AbstractTile {
 	private static ExplodingTile instance = null;
-	private final String SPRITE_NAME = "explosion.png";
+	private final String spriteName = "explosion.png";
 
 	/**
 	 * Returns an instance of this class. Always returns the same instance.
@@ -30,7 +36,7 @@ public class ExplodingTile extends AbstractTile {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource(SPRITE_NAME);
+		return getClass().getClassLoader().getResource(spriteName);
 	}
 
 }

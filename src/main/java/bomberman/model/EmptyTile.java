@@ -10,7 +10,7 @@ import java.net.URL;
  */
 public final class EmptyTile extends AbstractTile {
 	private static EmptyTile instance = null;
-	private final String SPRITE_NAME = "empty_tile.png";
+	private final String spriteName = "empty_tile.png";
 
 	private EmptyTile() {
 
@@ -40,7 +40,7 @@ public final class EmptyTile extends AbstractTile {
 
 	@Override
 	public URL getSpriteURL() {
-		return getClass().getClassLoader().getResource(SPRITE_NAME);
+		return getClass().getClassLoader().getResource(spriteName);
 	}
 
 }

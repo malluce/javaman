@@ -7,5 +7,20 @@ package bomberman.model;
  *
  */
 public enum Direction {
-	LEFT, RIGHT, UP, DOWN
+	/**
+	 * left..
+	 */
+	LEFT,
+	/**
+	 * right..
+	 */
+	RIGHT,
+	/**
+	 * up..
+	 */
+	UP,
+	/**
+	 * down..
+	 */
+	DOWN
 }
