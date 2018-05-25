@@ -68,4 +68,16 @@ public class TileCoordinate {
 		int yCoord = row * tileSize;
 		return new XYCoordinate(xCoord, yCoord);
 	}
+
+	/**
+	 * Returns whether this tile is in the range of the game. This is true when both row and column of this tile are >=
+	 * 0 and < gameSize.
+	 * 
+	 * @param gameSize
+	 *            the size of the game
+	 * @return true if this tile is in the range of the game, false otherwise.
+	 */
+	public boolean inGameRange(int gameSize) {
+		return row >= 0 && column >= 0 && row < gameSize && column < gameSize;
+	}
 }

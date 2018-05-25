@@ -180,6 +180,11 @@ public class Player extends GameElement {
 	 *            the direction in which the player may move
 	 */
 	private void move(Direction dir) {
+		// player should not move when he's dead
+		if (!isAlive()) {
+			return;
+		}
+
 		// relevant variables
 		int xPos = position.getX();
 		int yPos = position.getY();
@@ -187,58 +192,56 @@ public class Player extends GameElement {
 		int gameSize = game.getGameSize();
 		ArenaI arena = game.getArena();
 
-		XYCoordinate newXYPosition = null;
-		TileCoordinate firstTileToEnter = null; // position of the new tile that
-												// will be entered in any case
-												// (the tile in which position
-												// is)
+		XYCoordinate newXYPosition = null; // the pixel-position if the movement happens
 
-		// different moving direction lead to different tiles
+		/*
+		 * The tile that may be entered when moving. Note that this is NOT equal to the tile in which newXYPosition is.
+		 * The width and height of the player (=tileSize) has to be considered when moving right or down because the
+		 * XYPosition of the player is defined by its uppermost left pixel.
+		 */
+		TileCoordinate firstTileToEnter = null;
 
+		// calculate new position and tile
 		switch (dir) {
 		case LEFT:
 			newXYPosition = new XYCoordinate(xPos - speed, yPos);
 			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
-			if (firstTileToEnter.getColumn() < 0) { // do not leave arena
-				return;
-			}
 			break;
 		case RIGHT:
 			newXYPosition = new XYCoordinate(xPos + speed, yPos);
 			firstTileToEnter = new XYCoordinate(xPos + speed + tileSize - 1, yPos).toTileCoordinates(tileSize);
-			if (firstTileToEnter.getColumn() > gameSize) { // do not leave arena
-				return;
-			}
 			break;
 		case UP:
 			newXYPosition = new XYCoordinate(xPos, yPos - speed);
 			firstTileToEnter = newXYPosition.toTileCoordinates(tileSize);
-			if (firstTileToEnter.getRow() < 0) { // do not leave arena
-				return;
-			}
 			break;
 		case DOWN:
 			newXYPosition = new XYCoordinate(xPos, yPos + speed);
 			firstTileToEnter = new XYCoordinate(xPos, yPos + speed + tileSize - 1).toTileCoordinates(tileSize);
-			if (firstTileToEnter.getRow() > gameSize) { // do not leave arena
-				return;
-			}
 			break;
 		default:
 			break;
 		}
 
-		int newRow = firstTileToEnter.getRow();
-		int newCol = firstTileToEnter.getColumn();
-		TileCoordinate secondTileToEnter = null; // if the player is not aligned
-													// he must enter two tiles
-													// at once
+		// do not leave arena of the game
+		if (!firstTileToEnter.inGameRange(gameSize)) {
+			return;
+		}
 
-		if (firstTileToEnter.equals(this.position.toTileCoordinates(tileSize))) { // no
-																					// tile
-																					// change
+		/*
+		 * The second tile a player may enter.
+		 * If the player is not aligned with the tile grid, he may enter two tiles at once because his body is located 
+		 * in two tiles at once.
+		 */
+		TileCoordinate secondTileToEnter = null;
+
+		if (firstTileToEnter.equals(this.position.toTileCoordinates(tileSize))) {
+			// no tile change happens here
 			this.position = newXYPosition;
+			return;
 		} else {
+			int newRow = firstTileToEnter.getRow();
+			int newCol = firstTileToEnter.getColumn();
 			// check if player is aligned so it is enough to check one tile
 			switch (dir) {
 			case LEFT: // fall through
@@ -248,8 +251,9 @@ public class Player extends GameElement {
 						this.position = newXYPosition;
 					}
 					return;
+				} else {
+					secondTileToEnter = new TileCoordinate(newCol, newRow + 1);
 				}
-				secondTileToEnter = new TileCoordinate(newCol, newRow + 1);
 				break;
 			case UP: // fall through
 			case DOWN:
@@ -258,8 +262,9 @@ public class Player extends GameElement {
 						this.position = newXYPosition;
 					}
 					return;
+				} else {
+					secondTileToEnter = new TileCoordinate(newCol + 1, newRow);
 				}
-				secondTileToEnter = new TileCoordinate(newCol + 1, newRow);
 				break;
 			default:
 				break;
