@@ -1,4 +1,6 @@
-package bomberman.model;
+package bomberman.model.tile;
+
+import bomberman.model.GameElement;
 
 /**
  * A tile in an arena is represented in this class.

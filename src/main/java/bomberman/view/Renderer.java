@@ -4,13 +4,13 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 import bomberman.Main;
-import bomberman.model.AbstractTile;
-import bomberman.model.ArenaI;
-import bomberman.model.Bomb;
 import bomberman.model.Game;
 import bomberman.model.Player;
-import bomberman.model.TileCoordinate;
-import bomberman.model.XYCoordinate;
+import bomberman.model.arena.ArenaI;
+import bomberman.model.bomb.Bomb;
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.coord.XYCoordinate;
+import bomberman.model.tile.AbstractTile;
 
 /**
  * Renders the game.

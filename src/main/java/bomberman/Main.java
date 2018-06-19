@@ -5,12 +5,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import bomberman.controller.PlayerInputHandler;
-import bomberman.model.ArenaI;
 import bomberman.model.Game;
-import bomberman.model.IllegalIdRequestException;
 import bomberman.model.Player;
-import bomberman.model.StandardArena;
-import bomberman.model.TileCoordinate;
+import bomberman.model.arena.ArenaI;
+import bomberman.model.arena.StandardArena;
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.exceptions.IllegalIdRequestException;
 import bomberman.view.Renderer;
 import bomberman.view.Window;
 

@@ -1,8 +1,12 @@
-package bomberman.model;
+package bomberman.model.bomb;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import bomberman.model.Player;
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.tile.AbstractTile;
 
 /**
  * Represents a bomb.

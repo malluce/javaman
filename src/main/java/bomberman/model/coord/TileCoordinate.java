@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.coord;
 
 /**
  * Represents a coordinate of a fixed tile.

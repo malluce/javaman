@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.coord;
 
 /**
  * Represents a coordinate of a not tile-aligned entity in the game. (e.g. a player)

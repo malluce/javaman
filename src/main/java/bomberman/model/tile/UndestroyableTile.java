@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.tile;
 
 import java.net.URL;
 

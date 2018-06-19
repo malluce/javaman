@@ -1,36 +1,36 @@
-package bomberman.model;
+package bomberman.model.tile;
 
 import java.net.URL;
 
 /**
- * Represents a tile that may be destroyed by exploding bombs.
+ * Represents a tile that is empty, so is passable by players.
  * 
  * @author Felix Bachmann
  *
  */
-public final class DestroyableTile extends AbstractTile {
-	private static DestroyableTile instance = null;
-	private final String spriteName = "destroyable_block.png";
+public final class EmptyTile extends AbstractTile {
+	private static EmptyTile instance = null;
+	private final String spriteName = "empty_tile.png";
 
-	private DestroyableTile() {
+	private EmptyTile() {
 
 	}
 
 	/**
 	 * Returns an instance of this class. Always returns the same instance.
 	 * 
-	 * @return an instance of DestroyableTile
+	 * @return an instance of EmptyTile
 	 */
-	public static DestroyableTile getInstance() {
+	public static EmptyTile getInstance() {
 		if (instance == null) {
-			instance = new DestroyableTile();
+			instance = new EmptyTile();
 		}
 		return instance;
 	}
 
 	@Override
 	public boolean isPassable() {
-		return false;
+		return true;
 	}
 
 	@Override

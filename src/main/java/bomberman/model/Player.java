@@ -6,6 +6,11 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import bomberman.model.arena.ArenaI;
+import bomberman.model.bomb.Bomb;
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.coord.XYCoordinate;
+import bomberman.model.exceptions.IllegalIdRequestException;
 import utils.ImageResizer;
 
 /**

@@ -1,4 +1,7 @@
-package bomberman.model;
+package bomberman.model.arena;
+
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.tile.AbstractTile;
 
 /**
  * Represents an arena.

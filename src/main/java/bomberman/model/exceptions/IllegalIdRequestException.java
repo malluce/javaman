@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.exceptions;
 
 /**
  * Thrown when there are no more IDs that a game can distribute but a player tries to join the game.

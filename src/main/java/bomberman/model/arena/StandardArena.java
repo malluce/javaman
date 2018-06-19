@@ -1,4 +1,10 @@
-package bomberman.model;
+package bomberman.model.arena;
+
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.tile.AbstractTile;
+import bomberman.model.tile.DestroyableTile;
+import bomberman.model.tile.EmptyTile;
+import bomberman.model.tile.UndestroyableTile;
 
 /**
  * A standard arena where the borders are undestroyable blocks. Inside the arena there are randomly placed destroyable

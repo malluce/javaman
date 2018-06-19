@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.bomb;
 
 /**
  * Models the state a bomb can be in.

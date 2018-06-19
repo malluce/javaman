@@ -3,6 +3,14 @@ package bomberman.model;
 import java.util.Iterator;
 import java.util.List;
 
+import bomberman.model.arena.ArenaI;
+import bomberman.model.bomb.Bomb;
+import bomberman.model.coord.TileCoordinate;
+import bomberman.model.exceptions.IllegalIdRequestException;
+import bomberman.model.tile.AbstractTile;
+import bomberman.model.tile.EmptyTile;
+import bomberman.model.tile.ExplodingTile;
+
 /**
  * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
  * 
