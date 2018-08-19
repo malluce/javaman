@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import bomberman.model.Player;
 import bomberman.model.coord.TileCoordinate;
+import bomberman.model.player.Player;
 import bomberman.model.tile.AbstractTile;
 
 /**
@@ -24,6 +24,24 @@ public class Bomb extends AbstractTile {
 	private long maxExplosionTicks;
 	private BombState state;
 	private Player player;
+
+	/**
+	 * Models the state a bomb can be in.
+	 */
+	enum BombState {
+		/**
+		 * the bomb is ticking (time between planting and exploding)
+		 */
+		TICKING,
+		/**
+		 * the bomb is exploding (time between finished ticking and vanishing)
+		 */
+		EXPLODING,
+		/**
+		 * the bomb has finished. its life ended and it can be deleted
+		 */
+		FINISHED
+	}
 
 	/**
 	 * Creates a new bomb and sets the bomb state to TICKING.

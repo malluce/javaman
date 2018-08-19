@@ -1,4 +1,4 @@
-package bomberman.controller;
+package bomberman.view.listener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import bomberman.model.Player;
+import bomberman.model.Game;
+import bomberman.model.config.ControlsConfig;
+import bomberman.model.player.Player;
 
 /**
  * This class handles the input by a player via keyboard.
@@ -14,7 +16,11 @@ import bomberman.model.Player;
  * @author Felix Bachmann
  *
  */
-public class PlayerInputHandler implements KeyListener {
+public class PlayerInputListener implements KeyListener {
+	private Game game;
+	/*
+	 * Keeps track of the currently hold movement keys to constantly move the player while the key is hold.
+	 */
 	private HashMap<Integer, Boolean> isPressed = new HashMap<Integer, Boolean>();
 	private Player player;
 	private final int keyCodeLeft;
@@ -22,31 +28,27 @@ public class PlayerInputHandler implements KeyListener {
 	private final int keyCodeUp;
 	private final int keyCodeDown;
 	private final int keyCodePlant;
+	private final int keyCodePause;
 
 	/**
 	 * Creates a new input handler.
 	 * 
+	 * @param game
+	 *            the game which is influences by the inputs
 	 * @param player
 	 *            the player to which the input will be redirected
-	 * @param keyCodeLeft
-	 *            the keyCode constant which is used for moving left
-	 * @param keyCodeRight
-	 *            the keyCode constant which is used for moving right
-	 * @param keyCodeUp
-	 *            the keyCode constant which is used for moving up
-	 * @param keyCodeDown
-	 *            the keyCode constant which is used for moving down
-	 * @param keyCodePlant
-	 *            the keyCode constant which is used for planting a bomb
+	 * @param conf
+	 *            the controls config of this player
 	 */
-	public PlayerInputHandler(Player player, final int keyCodeLeft, final int keyCodeRight, final int keyCodeUp,
-			final int keyCodeDown, final int keyCodePlant) {
+	public PlayerInputListener(Game game, Player player, ControlsConfig conf) {
+		this.game = game;
 		this.player = player;
-		this.keyCodeLeft = keyCodeLeft;
-		this.keyCodeRight = keyCodeRight;
-		this.keyCodeUp = keyCodeUp;
-		this.keyCodeDown = keyCodeDown;
-		this.keyCodePlant = keyCodePlant;
+		this.keyCodeLeft = conf.getLeft();
+		this.keyCodeRight = conf.getRight();
+		this.keyCodeUp = conf.getUp();
+		this.keyCodeDown = conf.getDown();
+		this.keyCodePlant = conf.getPlant();
+		this.keyCodePause = conf.getPause();
 	}
 
 	/**
@@ -64,8 +66,8 @@ public class PlayerInputHandler implements KeyListener {
 	}
 
 	/**
-	 * Invoked when a key is pressed. This key is added to the pressed keys, i.e. until the key is released movement may
-	 * be invoked.
+	 * Invoked when a key is pressed. This key is added to the pressed keys if it is a movement key, i.e. until the key
+	 * is released movement may be invoked.
 	 * 
 	 * @param arg0
 	 *            the event triggered by the pressed key
@@ -75,6 +77,8 @@ public class PlayerInputHandler implements KeyListener {
 		if (keyCode == keyCodePlant) {
 			// plant key
 			invokePlant();
+		} else if (keyCode == keyCodePause) {
+			game.toggleRunning();
 		} else {
 			// movement key
 			isPressed.put(keyCode, true);

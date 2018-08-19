@@ -1,4 +1,4 @@
-package bomberman.model;
+package bomberman.model.player;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -6,8 +6,12 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import bomberman.model.Direction;
+import bomberman.model.Game;
+import bomberman.model.GameElement;
 import bomberman.model.arena.ArenaI;
 import bomberman.model.bomb.Bomb;
+import bomberman.model.config.PlayerConfig;
 import bomberman.model.coord.TileCoordinate;
 import bomberman.model.coord.XYCoordinate;
 import bomberman.model.exceptions.IllegalIdRequestException;
@@ -33,24 +37,16 @@ public class Player extends GameElement {
 	/**
 	 * Creates a new player.
 	 * 
-	 * @param spriteName
-	 *            the name of the sprite file (e.g. "player_one.png")
-	 * @param initialPosition
-	 *            the initial position of the player
-	 * @param amountOfBombs
-	 *            the amount of bombs the player has (at the start of the game)
-	 * @param lifes
-	 *            the initial amount of lifes the player has
-	 * @param game
-	 *            the game the player is alive in
+	 * @param config
+	 *            the configuration for the player to be created
 	 */
-	public Player(String spriteName, XYCoordinate initialPosition, int amountOfBombs, int lifes, Game game) {
-		this.spriteName = spriteName;
-		this.position = initialPosition;
-		this.bombsLeft = amountOfBombs;
-		this.maxBombs = amountOfBombs;
-		this.game = game;
-		this.lifes = lifes;
+	public Player(PlayerConfig config) {
+		this.spriteName = config.getSpriteName();
+		this.position = config.getPosition();
+		this.maxBombs = config.getAmountOfBombs();
+		this.bombsLeft = maxBombs;
+		this.game = config.getGame();
+		this.lifes = config.getLives();
 	}
 
 	/**

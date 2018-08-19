@@ -4,7 +4,9 @@ import bomberman.model.coord.TileCoordinate;
 import bomberman.model.tile.AbstractTile;
 
 /**
- * Represents an arena.
+ * Represents an arena. Implementations MUST provide a zero-arg constructor in order to be detected by a
+ * {@link java.util.ServiceLoader#load(Class)} call. This constructor should set up the arena by using a default sized
+ * map. Implementations can control via overriding toString() how the arena is named in the GUI of the game.
  * 
  * @author Felix Bachmann
  *
@@ -12,7 +14,8 @@ import bomberman.model.tile.AbstractTile;
 public interface ArenaI {
 
 	/**
-	 * Returns the amount of players that are able to play inside this arena.
+	 * Returns the amount of players that are able to play inside this arena. The return value must be either 1 or 2
+	 * because the game is only playable locally via keyboard.
 	 * 
 	 * @return the amount of player allowed in this arena
 	 */

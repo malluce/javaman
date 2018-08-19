@@ -1,15 +1,22 @@
 package bomberman.model;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import bomberman.model.arena.ArenaI;
 import bomberman.model.bomb.Bomb;
+import bomberman.model.config.GameConfig;
 import bomberman.model.coord.TileCoordinate;
 import bomberman.model.exceptions.IllegalIdRequestException;
+import bomberman.model.player.Player;
 import bomberman.model.tile.AbstractTile;
 import bomberman.model.tile.EmptyTile;
 import bomberman.model.tile.ExplodingTile;
+import bomberman.view.Renderer;
+import bomberman.view.listener.PlayerInputListener;
 
 /**
  * Represents the game. Handles the actions players may try to do. (e.g. moving, planting a bomb etc.)
@@ -18,31 +25,29 @@ import bomberman.model.tile.ExplodingTile;
  *
  */
 public class Game {
+	private static final int TPS = 120; // tick per second
+	private static final double MILLIS_PER_TICK = 1000 / TPS;
+
 	private ArenaI arena;
 	private List<Player> players;
 	private Bomb[] bombs;
 	private final int tileSize;
 	private final int gameSize;
 	private int currentId = 0;
+	private volatile boolean running = false;
 
 	/**
 	 * Creates a new game.
 	 * 
-	 * @param arena
-	 *            the arena is which the game is taking place
-	 * @param players
-	 *            the players that will play the game
-	 * @param tileSize
-	 *            the size of a tile in pixels
-	 * @param gameSize
-	 *            the size of the game. hence all arenas are quadratic this value refers to the amount of tiles in a row
-	 *            or column
+	 * @param config
+	 *            the game config which was created by the user
 	 */
-	public Game(ArenaI arena, List<Player> players, int tileSize, int gameSize) {
-		this.tileSize = tileSize;
-		this.gameSize = gameSize;
-		this.arena = arena;
-		this.players = players;
+	public Game(GameConfig config) {
+		Objects.requireNonNull(config);
+		this.tileSize = GameConfig.TILE_SIZE;
+		this.gameSize = GameConfig.GAME_SIZE;
+		this.arena = config.getArena();
+		this.players = config.getPlayers();
 		int maxBombs = 0;
 		for (Player player : players) {
 			maxBombs += player.getMaxBombs();
@@ -183,6 +188,16 @@ public class Game {
 	private void explodeBomb(Bomb b) {
 		List<TileCoordinate> tilesToExplode = b.getAffectedTileCoordinates();
 
+		/*
+		 * Map to prevent a player from getting hit more than once by an explosion caused by a single bomb. 
+		 * This may happen without this map because a player may move to a different tile while the explosion
+		 * is still taking place. 
+		 */
+		Map<Player, Boolean> hitByThisExplosion = new HashMap<Player, Boolean>();
+		for (Player pl : players) {
+			hitByThisExplosion.put(pl, Boolean.FALSE);
+		}
+
 		for (int i = 0; i < tilesToExplode.size(); i++) {
 			TileCoordinate curCoord = tilesToExplode.get(i);
 			AbstractTile tile = arena.getTile(curCoord);
@@ -190,13 +205,73 @@ public class Game {
 				arena.setTile(curCoord, ExplodingTile.getInstance());
 			}
 			for (Player pl : players) {
-				if (pl.getTileCoordinate().equals(curCoord)) {
+				if (pl.getTileCoordinate().equals(curCoord) && !hitByThisExplosion.get(pl)) {
 					pl.hit();
+					hitByThisExplosion.put(pl, Boolean.TRUE);
 				}
 			}
-
 		}
 
+	}
+
+	/**
+	 * Starts the game, that is starts the game loop.
+	 * 
+	 * @param render
+	 *            the renderer in which the game should be rendered.
+	 * @param inputHandlers
+	 *            the input handlers
+	 */
+	// TODO avoid this parameters here? at least the inputHandlers
+	public void start(Renderer render, List<PlayerInputListener> inputHandlers) {
+		running = true;
+		gameLoop(render, inputHandlers);
+	}
+
+	private void gameLoop(Renderer render, List<PlayerInputListener> inputHandlers) {
+		long nextTick = System.currentTimeMillis();
+		long nextRender = nextTick;
+
+		while (true) {
+			while (running) {
+				long loopStart = System.currentTimeMillis();
+
+				if (loopStart >= nextRender) {
+					render.render();
+					do {
+						nextRender += Renderer.MILLIS_PER_FRAME;
+					} while (loopStart >= nextRender);
+				}
+
+				if (loopStart >= nextTick) {
+					this.tickBombs();
+					for (PlayerInputListener inputHandler : inputHandlers) {
+						inputHandler.updateFromPressedKeys();
+					}
+					do {
+						nextTick += MILLIS_PER_TICK;
+					} while (loopStart >= nextTick);
+				}
+
+				long loopEnd = System.currentTimeMillis();
+				long delay = Math.min(nextTick - loopEnd, nextRender - loopEnd);
+				if (delay > 0) {
+					try {
+						Thread.sleep(delay);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Toggles whether the game is running, i.e. pausing or unpausing the game.
+	 */
+	public void toggleRunning() {
+		running = !running;
 	}
 
 }

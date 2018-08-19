@@ -1,5 +1,8 @@
 package bomberman.model.arena;
 
+import org.kohsuke.MetaInfServices;
+
+import bomberman.model.config.GameConfig;
 import bomberman.model.coord.TileCoordinate;
 import bomberman.model.tile.AbstractTile;
 import bomberman.model.tile.DestroyableTile;
@@ -13,6 +16,7 @@ import bomberman.model.tile.UndestroyableTile;
  * @author Felix Bachmann
  *
  */
+@MetaInfServices(ArenaI.class)
 public class StandardArena implements ArenaI {
 	private final int maxPlayers = 2;
 
@@ -20,6 +24,14 @@ public class StandardArena implements ArenaI {
 	private AbstractTile[][] currentMap;
 
 	private final TileCoordinate[] spawnPoints = new TileCoordinate[maxPlayers];
+
+	/**
+	 * Delegate the call to the constructor {@link #StandardArena(int)} with the default game size value of
+	 * {@link GameConfig.GAME_SIZE}.
+	 */
+	public StandardArena() {
+		this(GameConfig.GAME_SIZE);
+	}
 
 	/**
 	 * Creates a new StandardArena with a specific size.
@@ -40,10 +52,16 @@ public class StandardArena implements ArenaI {
 		this.spawnPoints[1] = new TileCoordinate(size - 2, size - 2);
 	}
 
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
+
 	/**
 	 * Initializes the arena i.e. places the tiles.
 	 */
 	private void initArena() {
+		System.out.println("initing " + this.getClass().getName());
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				if (x == 0 || y == 0 || x == (size - 1) || y == (size - 1)) {

@@ -3,14 +3,17 @@ package bomberman.view;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import bomberman.Main;
+import javax.swing.SwingUtilities;
+
 import bomberman.model.Game;
-import bomberman.model.Player;
 import bomberman.model.arena.ArenaI;
 import bomberman.model.bomb.Bomb;
+import bomberman.model.config.GameConfig;
 import bomberman.model.coord.TileCoordinate;
 import bomberman.model.coord.XYCoordinate;
+import bomberman.model.player.Player;
 import bomberman.model.tile.AbstractTile;
+import bomberman.view.game.GameWindow;
 
 /**
  * Renders the game.
@@ -19,8 +22,15 @@ import bomberman.model.tile.AbstractTile;
  *
  */
 public class Renderer {
+	private static final int FPS = 60;
+
+	/**
+	 * The milliseconds per frame.
+	 */
+	public static final double MILLIS_PER_FRAME = 1000 / FPS;
+
 	private Game game;
-	private Window win;
+	private GameWindow win;
 	private Graphics2D gr;
 
 	/**
@@ -29,35 +39,39 @@ public class Renderer {
 	 * @param game
 	 *            the game to render
 	 * @param win
-	 *            the window in which the game is drawn into, contains gr. is repainted after rednering
-	 * @param gr
-	 *            graphics to render into
+	 *            the window in which the game is drawn into
+	 * 
 	 */
-	public Renderer(Game game, Window win, Graphics2D gr) {
+	public Renderer(Game game, GameWindow win) {
 		this.game = game;
 		this.win = win;
-		this.gr = gr;
+		this.gr = win.getImg().createGraphics();
 	}
 
 	/**
 	 * Renders the game.
 	 */
 	public void render() {
+
 		drawArena();
 
 		drawBombs();
 
 		drawPlayers();
 
-		win.repaint();
+		SwingUtilities.invokeLater(() -> win.repaint());
 	}
 
 	private void drawArena() {
 		ArenaI arena = game.getArena();
-		for (int i = 0; i < Main.GAME_SIZE; i++) {
-			for (int j = 0; j < Main.GAME_SIZE; j++) {
+		for (int i = 0; i < GameConfig.GAME_SIZE; i++) {
+			for (int j = 0; j < GameConfig.GAME_SIZE; j++) {
 				AbstractTile tile = arena.getTile(new TileCoordinate(i, j));
-				gr.drawImage(tile.getSprite(Main.TILE_SIZE), i * Main.TILE_SIZE, j * Main.TILE_SIZE, null);
+				final int finI = i;
+				final int finJ = j;
+				SwingUtilities.invokeLater(() -> gr.drawImage(tile.getSprite(GameConfig.TILE_SIZE),
+						finI * GameConfig.TILE_SIZE, finJ * GameConfig.TILE_SIZE, null));
+
 			}
 		}
 	}
@@ -66,7 +80,9 @@ public class Renderer {
 		List<Player> players = game.getPlayers();
 		for (Player pl : players) {
 			if (pl.isAlive()) {
-				gr.drawImage(pl.getSprite(Main.TILE_SIZE), pl.getX(), pl.getY(), null);
+				SwingUtilities.invokeLater(
+						() -> gr.drawImage(pl.getSprite(GameConfig.TILE_SIZE), pl.getX(), pl.getY(), null));
+
 			}
 		}
 	}
@@ -77,8 +93,9 @@ public class Renderer {
 			if (bo == null || bo.isExploding()) {
 				continue;
 			}
-			XYCoordinate xy = bo.getTileCoordinate().toXYCoordinates(Main.TILE_SIZE);
-			gr.drawImage(bo.getSprite(Main.TILE_SIZE), xy.getX(), xy.getY(), null);
+			XYCoordinate xy = bo.getTileCoordinate().toXYCoordinates(GameConfig.TILE_SIZE);
+			SwingUtilities
+					.invokeLater(() -> gr.drawImage(bo.getSprite(GameConfig.TILE_SIZE), xy.getX(), xy.getY(), null));
 		}
 	}
 }
