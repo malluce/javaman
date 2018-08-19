@@ -47,7 +47,7 @@ public class GameConfigFrame extends JFrame {
 			this.setAlwaysOnTop(true);
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			this.setTitle("javaman configuration");
-			this.setPreferredSize(new Dimension(300, 300));
+			this.setPreferredSize(new Dimension(400, 300));
 			this.add(mainPane);
 			this.pack();
 			this.setLocationRelativeTo(null);
