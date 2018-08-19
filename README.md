@@ -4,7 +4,7 @@ This repository contains the source code of a bomberman game written entirely in
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for playing the game or extending it.
+These instructions will get you a copy of the project for playing or extending the game.
 
 ### Prerequisites
 
