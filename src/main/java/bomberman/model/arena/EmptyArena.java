@@ -76,7 +76,6 @@ public class EmptyArena implements ArenaI {
 	}
 
 	private void init() {
-		System.out.println("initing " + this.getClass().getName());
 		map = new AbstractTile[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {

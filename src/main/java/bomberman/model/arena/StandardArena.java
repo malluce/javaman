@@ -61,7 +61,6 @@ public class StandardArena implements ArenaI {
 	 * Initializes the arena i.e. places the tiles.
 	 */
 	private void initArena() {
-		System.out.println("initing " + this.getClass().getName());
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				if (x == 0 || y == 0 || x == (size - 1) || y == (size - 1)) {
