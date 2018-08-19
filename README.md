@@ -23,6 +23,7 @@ git clone https://github.com/malluce/javaman
 * Use maven to create an executable .jar file. 
 
 ```
+cd javaman
 mvn package
 ```
 
