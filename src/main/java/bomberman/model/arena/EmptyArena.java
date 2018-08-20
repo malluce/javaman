@@ -23,7 +23,7 @@ public class EmptyArena implements ArenaI {
 
 	/**
 	 * Delegate the call to the constructor {@link #EmptyArena(int)} with the default game size value of
-	 * {@link GameConfig.GAME_SIZE}.
+	 * {@link bomberman.model.config.GameConfig#GAME_SIZE}.
 	 */
 	public EmptyArena() {
 		this(GameConfig.GAME_SIZE);

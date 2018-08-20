@@ -70,8 +70,8 @@ public class TileCoordinate {
 	}
 
 	/**
-	 * Returns whether this tile is in the range of the game. This is true when both row and column of this tile are >=
-	 * 0 and < gameSize.
+	 * Returns whether this tile is in the range of the game. This is true when both row and column of this tile are
+	 * greater than or equal 0 and less than gameSize.
 	 * 
 	 * @param gameSize
 	 *            the size of the game

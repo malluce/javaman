@@ -121,7 +121,7 @@ public class Player extends GameElement {
 	 * Sets the amount of bombs the player is still able to plant.
 	 * 
 	 * @param bombsLeft
-	 *            the amount of bombs, has to be >= 0.
+	 *            the amount of bombs, has to be greater than or equal 0.
 	 */
 	public void setBombsLeft(int bombsLeft) {
 		if (bombsLeft < 0) {

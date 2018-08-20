@@ -27,7 +27,7 @@ public class StandardArena implements ArenaI {
 
 	/**
 	 * Delegate the call to the constructor {@link #StandardArena(int)} with the default game size value of
-	 * {@link GameConfig.GAME_SIZE}.
+	 * {@link bomberman.model.config.GameConfig#GAME_SIZE}.
 	 */
 	public StandardArena() {
 		this(GameConfig.GAME_SIZE);

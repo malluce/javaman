@@ -205,7 +205,7 @@ public class PlayerConfigPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the speed for a player. Ids range from 1 to {@link this#getPlayerCount()}.
+	 * Returns the speed for a player. Ids range from 1 to this#getPlayerCount()
 	 * 
 	 * @param playerId
 	 *            the id of the player
@@ -216,7 +216,7 @@ public class PlayerConfigPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the lives for a player. Ids range from 1 to {@link this#getPlayerCount()}.
+	 * Returns the lives for a player. Ids range from 1 to this#getPlayerCount()
 	 * 
 	 * @param playerId
 	 *            the id of the player
@@ -227,7 +227,7 @@ public class PlayerConfigPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the bombs for a player. Ids range from 1 to {@link this#getPlayerCount()}.
+	 * Returns the bombs for a player. Ids range from 1 to this#getPlayerCount()
 	 * 
 	 * @param playerId
 	 *            the id of the player
