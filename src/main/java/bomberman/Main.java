@@ -13,7 +13,8 @@ import bomberman.model.player.Player;
 import utils.Distributer;
 
 /**
- * The main class, contains the game setup and game loop.
+ * The main class, setups sprites and controls and issues the {@link Command#START_CONFIG} command by handling it to the
+ * {@link Controller}.
  * 
  * @author Felix Bachmann
  *
